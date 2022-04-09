@@ -1,5 +1,6 @@
 import { StyleSheet, Image, Text, View, Button } from 'react-native';
 import * as React from 'react';
+// import {styles} from "../../GlobalStyles"
 
 const ToAuth = ({ navigation }) => {
   	return (
