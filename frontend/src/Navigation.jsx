@@ -5,7 +5,7 @@ import Friends from "./screens/Friends/Friends";
 import { View, Text, Alert } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { getHeaderTitle } from "@react-navigation/elements";
 import "react-native-gesture-handler";
 import Header from "./Header/Header";
@@ -15,7 +15,6 @@ import LogIn from "./screens/LogIn/LogIn";
 import SignUp from "./screens/SignUp/SignUp";
 import LoginHeader from "./LoginHeader/LoginHeader";
 import { AuthContext, AuthContextProvider } from "./AuthContext";
-
 import { Foundation } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -24,7 +23,7 @@ import style from "./GlobalStyles";
 
 function Navigation() {
   const Tab = createBottomTabNavigator();
-  const Stack = createStackNavigator();
+  const Stack = createNativeStackNavigator();
   const profile = <ProfileButton />;
   const getHeader = () => {
     return <Header profile={profile} />;
