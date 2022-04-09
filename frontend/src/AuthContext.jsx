@@ -2,7 +2,7 @@ import { createContext, useReducer, useEffect, useMemo } from 'react';
 import { Alert } from 'react-native';
 export const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
-	const [state, dispatch] = useReducer(
+	const [authState, dispatch] = useReducer(
     	(prevState, action) => {
       		switch (action.type) {
         		case 'RESTORE_TOKEN':
@@ -31,31 +31,8 @@ export const AuthContextProvider = ({ children }) => {
       		userToken: null,
     	}
 	);
-
-	/*useEffect(() => {
-    	// Fetch the token from storage then navigate to our appropriate place
-    	const bootstrapAsync = async () => {
-      		let userToken;
-
-      		try {
-        		userToken = await SecureStore.getItemAsync('userToken');
-      		} catch (e) {
-        		// Restoring token failed
-      		}
-
-      		// After restoring token, we may need to validate it in production apps
-
-      		// This will switch to the App screen or Auth screen and this loading
-      		// screen will be unmounted and thrown away.
-      		dispatch({ type: 'RESTORE_TOKEN', token: userToken });
-    	};
-
-    	bootstrapAsync();
-	}, []);*/
-
 	const authContext = useMemo(
     	() => ({
-    		userToken: state.userToken,
       		signIn: async (data) => {
         		// In a production app, we need to send some data (usually username, password) to server and get a token
         		// We will also need to handle errors if sign in failed
@@ -77,7 +54,7 @@ export const AuthContextProvider = ({ children }) => {
     	[]
 	);
   	return (
-    	<AuthContext.Provider value={authContext}>
+    	<AuthContext.Provider value={{ authState, ...authContext }}>
       		{children}
     	</AuthContext.Provider>
   	);

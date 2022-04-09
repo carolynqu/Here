@@ -19,7 +19,8 @@ import { AuthContext, AuthContextProvider } from './AuthContext';
 function Navigation() {
 	const Tab = createBottomTabNavigator();
 	const Stack = createStackNavigator();
-	const getHeader = ({ profile }) => {
+	const profile = <ProfileButton/>
+	const getHeader = () => {
   		return <Header profile={profile}/>
 	}
 	const getLoginHeader = ({ navigation, back }) => {
@@ -28,10 +29,10 @@ function Navigation() {
   			back={back}
   		/>
 	};
-	const authContext = React.useContext(AuthContext);
+	const { authState } = React.useContext(AuthContext);
 	return (
 		<>
-			{authContext.userToken ? (
+			{authState.userToken ? (
     			<NavigationContainer>
       				<Tab.Navigator
       					screenOptions={{
