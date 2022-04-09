@@ -4,27 +4,30 @@ import Add from './screens/Add/Add';
 import Friends from './screens/Friends/Friends';
 import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 function App() {
   	return (
     	<NavigationContainer>
-      		<Stack.Navigator>
-        		<Stack.Screen 
+      		<Tab.Navigator
+      			screenOptions={{
+      			}}
+      		>
+        		<Tab.Screen 
           			name="Home" 
           			component={Home} 
           		/>
-        		<Stack.Screen 
+        		<Tab.Screen 
         			name="Add" 
         			component={Add} 
         		/>
-        		<Stack.Screen 
+        		<Tab.Screen 
         			name="Friends" 
         			component={Friends} 
         		/>
-      		</Stack.Navigator>
+      		</Tab.Navigator>
     	</NavigationContainer>
   	);
 }
