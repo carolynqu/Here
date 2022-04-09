@@ -28,7 +28,7 @@ export const AuthContextProvider = ({ children }) => {
     	{
       		isLoading: true,
       		isSignout: false,
-      		userToken: null,
+      		userToken: true,
     	}
 	);
 	const authContext = useMemo(
