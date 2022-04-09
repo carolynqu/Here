@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
-const LoginHeader = ({ navigation, back }) => {
+const LoginHeader = ({ navigation, title }) => {
   	return (
   		<View style={styles.bigContainer}>
   			<View style={styles.bottom}>
@@ -10,7 +10,7 @@ const LoginHeader = ({ navigation, back }) => {
   					onPress={navigation.goBack}
   				>
   					<Text style={styles.text}>
-						{back.title}
+						{title}
   					</Text>
   				</TouchableOpacity>
   			</View>

@@ -14,11 +14,11 @@ const ToAuth = ({ navigation }) => {
   	  		</Text>
   	  		<Button
   	  			title="Log In"
-  	  			onPress={() => navigation.navigate('LogIn')}
+  	  			onPress={() => navigation.navigate('Log In')}
   	  		/>
   	  		<Button
   	  			title="Sign Up"
-  	  			onPress={() => navigation.navigate('SignUp')}
+  	  			onPress={() => navigation.navigate('Sign Up')}
   	  		/>
   	  	</View>
   	);

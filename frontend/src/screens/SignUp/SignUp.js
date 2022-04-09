@@ -4,7 +4,7 @@ import { AuthContext } from '../../AuthContext';
 import { useForm } from 'react-hook-form';
 import { Input, PasswordInput, Error } from '../Fields';
 
-const LogIn = ({ navigation }) => {
+const SignUp = ({ navigation }) => {
 	const { signIn } = useContext(AuthContext);
 	const { control, handleSubmit, formState: { errors }, formState } = useForm();
 	const onSubmit = (values) => {
@@ -12,6 +12,30 @@ const LogIn = ({ navigation }) => {
 	}
   	return (
   	  	<View>
+  	  		<Text>
+  	  			First Name:
+  	  		</Text>
+  	  		<Input
+  	  			name="firstName"
+  	  			control={control}
+  	  			required
+  	  			autoCapitalize
+  	  		/>
+  	  		{errors.firstName && errors.firstName.type == "required" && 
+  	  		<Error>Required field.</Error>}
+
+  	  		<Text>
+  	  			Last Name:
+  	  		</Text>
+  	  		<Input
+  	  			name="lastName"
+  	  			control={control}
+  	  			required
+  	  			autoCapitalize
+  	  		/>
+  	  		{errors.lastName && errors.lastName.type == "required" && 
+  	  		<Error>Required field.</Error>}
+
   	  		<Text>
   	  			School Email:
   	  		</Text>
@@ -39,11 +63,26 @@ const LogIn = ({ navigation }) => {
   	  		<Error>Required field.</Error>}
   	  		{errors.password && errors.password.type == "pattern" && 
   	  		<Error>Password must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters.</Error>}
+
+  	  		<Text>
+  	  			Confirm Password:
+  	  		</Text>
+  	  		<PasswordInput
+  	  			name="confirmPassword"
+  	  			control={control}
+  	  			required
+  	  			validate={value => control._fields.password && value == control._fields.password._f.value}
+  	  		/>
+  	  		{errors.confirmPassword && errors.confirmPassword.type == "required" && 
+  	  		<Error>Required field.</Error>}
+  	  		{errors.confirmPassword && errors.confirmPassword.type == "validate" && 
+  	  		<Error>Passwords must match.</Error>}
+
   	  		<Button
-  	  			title="Log In"
+  	  			title="Sign Up"
   	  			onPress={handleSubmit(onSubmit)}
   	  		/>
-  	  		<Text>Don't have an account? <Text style={styles.link} onPress={() => navigation.navigate('Sign Up')}>Sign Up.</Text></Text>
+  	  		<Text>Already have an account? <Text style={styles.link} onPress={() => navigation.navigate('Log In')}>Log In.</Text></Text>
   	  	</View>
   	);
 }
@@ -60,4 +99,4 @@ const styles = StyleSheet.create({
 		color: 'blue',
 	},
 });
-export default LogIn;
+export default SignUp;

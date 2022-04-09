@@ -48,7 +48,8 @@ export const AuthContextProvider = ({ children }) => {
         		// After getting token, we need to persist the token using `SecureStore`
         		// In the example, we'll use a dummy token
 
-        		dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+				Alert.alert("Test");
+        		dispatch({ type: 'SIGN_OUT' });
       		},
     	}),
     	[]

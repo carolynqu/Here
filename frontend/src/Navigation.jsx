@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useContext } from 'react';
 import Home from './screens/Home/Home';
 import Add from './screens/Add/Add';
 import Friends from './screens/Friends/Friends';
@@ -6,6 +6,7 @@ import { View, Text, Alert } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
+import { getHeaderTitle } from '@react-navigation/elements';
 import 'react-native-gesture-handler';
 import Header from './Header/Header';
 import ProfileButton from './ProfileButton';
@@ -23,13 +24,14 @@ function Navigation() {
 	const getHeader = () => {
   		return <Header profile={profile}/>
 	}
-	const getLoginHeader = ({ navigation, back }) => {
+	const getLoginHeader = ({ navigation, options, route }) => {
+		const title = getHeaderTitle(options, route.name);
   		return <LoginHeader 
-  			navigation={navigation} 
-  			back={back}
+  			navigation={navigation}
+  			title={title}
   		/>
 	};
-	const { authState } = React.useContext(AuthContext);
+	const { authState } = useContext(AuthContext);
 	return (
 		<>
 			{authState.userToken ? (
@@ -57,7 +59,7 @@ function Navigation() {
 				<NavigationContainer>
 					<Stack.Navigator>
 						<Stack.Screen
-							name="ToAuth"
+							name="To Auth"
 							component={ToAuth}
 							options={{
 								header: () => {
@@ -70,14 +72,14 @@ function Navigation() {
 							}}
 						/>
 						<Stack.Screen
-							name="LogIn"
+							name="Log In"
 							component={LogIn}
 							options={{
 								header: getLoginHeader,
 							}}
 						/>
 						<Stack.Screen
-							name="SignUp"
+							name="Sign Up"
 							component={SignUp}
 							options={{
 								header: getLoginHeader,
