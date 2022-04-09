@@ -5,12 +5,6 @@ export const AuthContextProvider = ({ children }) => {
 	const [authState, dispatch] = useReducer(
     	(prevState, action) => {
       		switch (action.type) {
-        		case 'RESTORE_TOKEN':
-          			return {
-            			...prevState,
-            			userToken: action.token,
-            			isLoading: false,
-          			};
         		case 'SIGN_IN':
           			return {
             			...prevState,
@@ -23,12 +17,25 @@ export const AuthContextProvider = ({ children }) => {
             			isSignout: true,
             			userToken: null,
           			};
+          		case 'GET_GROUPS':
+          			return {
+          				...prevState,
+          				groups: action.groups,
+          				isLoading: false,
+          			};
+          		case 'ADD_GROUP':
+          			return {
+          				...prevState,
+          				groups: [...groups, action.group],
+          			};
       		}
     	},
     	{
       		isLoading: true,
       		isSignout: false,
-      		userToken: null,
+      		//userToken: null,
+      		userToken: "dev-token",
+      		groups: undefined,
     	}
 	);
 	const authContext = useMemo(
@@ -48,10 +55,16 @@ export const AuthContextProvider = ({ children }) => {
         		// After getting token, we need to persist the token using `SecureStore`
         		// In the example, we'll use a dummy token
 
-				Alert.alert("Test");
         		dispatch({ type: 'SIGN_OUT' });
       		},
-    	}),
+      		getGroups: async (data) => {
+      			await new Promise(resolve => setTimeout(resolve, 1000));
+      			dispatch({ type: 'GET_GROUPS', groups: sampleGroups });
+    		},
+    		setGroup: (group) => {
+    			dispatch({ type: 'SET_GROUP', group: group });
+    		}
+		}),
     	[]
 	);
   	return (
@@ -60,3 +73,55 @@ export const AuthContextProvider = ({ children }) => {
     	</AuthContext.Provider>
   	);
 }
+const sampleGroups =  [
+      					{
+      						id: 0,
+      						picture: "url",
+      						name: "Group 0",
+      						members: [
+      							{
+      								id: 0,
+      								picture: "url",
+      								firstName: "Nathan",
+      								lastName: "Ahn",
+      							},
+      							{
+      								id: 1,
+      								picture: "url",
+      								firstName: "Carolyn",
+      								lastName: "Qu",
+      							},
+      							{
+      								id: 2,
+      								picture: "url",
+      								firstName: "Alex",
+      								lastName: "Shi",
+      							},
+      							{
+      								id: 3,
+      								picture: "url",
+      								firstName: "Joseph",
+      								lastName: "Zhang",
+      							},
+      						]
+      					},
+      					{
+      						id: 1,
+      						picture: "url",
+      						name: "Group 1",
+      						members: [
+      							{
+      								id: 0,
+      								picture: "url",
+      								firstName: "Nathan",
+      								lastName: "Ahn",
+      							},
+      							{
+      								id: 1,
+      								picture: "url",
+      								firstName: "Carolyn",
+      								lastName: "Qu",
+      							},
+      						]
+      					},
+      				]
