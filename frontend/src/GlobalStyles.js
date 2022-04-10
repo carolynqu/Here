@@ -11,10 +11,16 @@ const screenWidth = Dimensions.get("window").width;
 //   },
 
 const globalStyles = StyleSheet.create({
+  navigationHeader: {
+    fontFamily: "LatoSemiBold",
+    fontSize: 30,
+    color: theme.text,
+  },
   pageHeader: {
     fontFamily: "LatoRegular",
     fontSize: 25,
     textAlign: "center",
+    color: theme.text,
   },
   icons: {
     color: "#9C9C9C",
