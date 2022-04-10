@@ -26,7 +26,7 @@ export const AuthContextProvider = ({ children }) => {
           		case "GET_FRIENDS":
           			return {
           				...prevState,
-          				friends: action.groups,
+          				friends: action.friends,
           				isLoading: false,
           			};
         		case "NEW_GROUP":
@@ -70,7 +70,7 @@ export const AuthContextProvider = ({ children }) => {
       		},
       		getFriends: async (data) => {
         		await new Promise((resolve) => setTimeout(resolve, 1000));
-        		dispatch({ type: "GET_GROUPS", groups: sampleGroups });
+        		dispatch({ type: "GET_FRIENDS", friends: sampleFriends });
       		},
       		newGroup: (group) => {
         		dispatch({ type: "NEW_GROUP", group: group });
@@ -135,4 +135,30 @@ const sampleGroups = [
       		},
     	],
   	},
+];
+const sampleFriends = [
+    {
+        id: 0,
+        picture: "url",
+        firstName: "Nathan",
+        lastName: "Ahn",
+    },
+    {
+        id: 1,
+        picture: "url",
+        firstName: "Carolyn",
+        lastName: "Qu",
+    },
+    {
+        id: 2,
+        picture: "url",
+        firstName: "Alex",
+        lastName: "Shi",
+    },
+    {
+        id: 3,
+        picture: "url",
+        firstName: "Joseph",
+        lastName: "Zhang",
+    },
 ];

@@ -10,8 +10,6 @@ export const signUp = async ({ firstName, lastName, email, password }) => {
   		email: email,
   		password: password,
   	});
-  	console.log(json);
-	console.log(`${baseUrl}/sign-up`);
 	axios.post(`${baseUrl}/sign-up`, json, {
 		headers: {
 			'Content-Type': 'application/json',
