@@ -32,6 +32,40 @@ router.post("/create-group", async (req, res) => {
 
     // Create new group
     const collection = db.collection("groups");
+
+    const adding = await collection.add({
+        name: name,
+        picture: picture,
+        members: Array.of(user)
+    });
+    const docRef = await collection.doc(adding.id).get();
+    const groupData = docRef.data();
+
+    // Add to user groups
+    const currUserRef = await db.collection("users").doc(user).get();
+    const userData = currUserRef.data();
+    db.collection("users").doc(user).update({
+        groups: [...userData.groups, docRef.id]
+    });
+
+    // Attach member
+    groupData.members = [];
+    groupData.id = docRef.id;
+
+    res.send(groupData);
+
+    /**
+
+    currUser.get()
+        .then((doc) => {
+            const userData = doc.data();
+            currUser.update({
+                groups: [...userData.groups, docRef.id]
+            }).catch(e => {
+                res.send(e.code);
+            });
+        });
+
     collection.add({
         name: name,
         picture: picture,
@@ -58,6 +92,7 @@ router.post("/create-group", async (req, res) => {
     }).catch(e => {
         res.send(e.code);
     });
+     */
 });
 
 // Leave a group
