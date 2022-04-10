@@ -20,7 +20,7 @@ export const Input = ({
       }}
       render={({ field: { onChange, onBlur, value } }) => (
         <TextInput
-          style={styles.input}
+          style={globalStyles.input}
           onBlur={onBlur}
           onChangeText={onChange}
           value={value}
@@ -47,7 +47,7 @@ export const PasswordInput = ({
       }}
       render={({ field: { onChange, onBlur, value } }) => (
         <TextInput
-          style={styles.input}
+          style={globalStyles.input}
           onBlur={onBlur}
           onChangeText={onChange}
           value={value}
@@ -70,17 +70,5 @@ const styles = StyleSheet.create({
     fontFamily: "LatoRegular",
     fontSize: 12,
     color: "red",
-  },
-  input: {
-    height: 45,
-    borderStyle: "solid",
-    // borderBottomWidth: 0.5,
-    // borderColor: theme.lightText,
-    borderRadius: 5,
-    backgroundColor: theme.backgroundColor,
-    paddingHorizontal: 10,
-    fontSize: 15,
-    fontFamily: "LatoRegular",
-    color: theme.darkText,
   },
 });

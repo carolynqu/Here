@@ -21,7 +21,7 @@ const SignUp = ({ navigation }) => {
     signUp(values.firstName, values.lastName, values.email, values.password);
   };
   return (
-    <View style={{ marginTop: 80, marginHorizontal: 30 }}>
+    <View style={{ marginTop: 80, marginHorizontal: theme.horizMargin }}>
       <Text style={styles.header}>Sign Up</Text>
 
       <ScrollView

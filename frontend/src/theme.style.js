@@ -5,4 +5,5 @@ export default {
   text: "#455266",
   backgroundColor: "#E4E4E4",
   blackColor: "#000000",
+  horizMargin: 30,
 };
