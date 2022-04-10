@@ -3,6 +3,6 @@ export default {
   lightText: "#9C9C9C",
   darkText: "#565656",
   text: "#455266",
-  background: "#F2F2F2",
+  backgroundColor: "#E4E4E4",
   blackColor: "#000000",
 };

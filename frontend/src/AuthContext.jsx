@@ -23,18 +23,18 @@ export const AuthContextProvider = ({ children }) => {
             groups: action.groups,
             isLoading: false,
           };
-        case "ADD_GROUP":
+        case "NEW_GROUP":
           return {
             ...prevState,
-            groups: [...groups, action.group],
+            groups: [...prevState.groups, action.group],
           };
       }
     },
     {
       isLoading: true,
       isSignout: false,
-      // userToken: true,
-      userToken: null,
+      userToken: true,
+      //userToken: null,
       groups: undefined,
     }
   );
@@ -61,8 +61,8 @@ export const AuthContextProvider = ({ children }) => {
         await new Promise((resolve) => setTimeout(resolve, 1000));
         dispatch({ type: "GET_GROUPS", groups: sampleGroups });
       },
-      setGroup: (group) => {
-        dispatch({ type: "SET_GROUP", group: group });
+      newGroup: (group) => {
+        dispatch({ type: "NEW_GROUP", group: group });
       },
     }),
     []

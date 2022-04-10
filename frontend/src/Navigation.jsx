@@ -21,101 +21,110 @@ import { FontAwesome5 } from "@expo/vector-icons";
 
 import style from "./GlobalStyles";
 
-function Navigation() {
-  const Tab = createBottomTabNavigator();
-  const Stack = createNativeStackNavigator();
-  const profile = <ProfileButton />;
-  const getHeader = () => {
-    return <Header profile={profile} />;
-  };
-  const getLoginHeader = ({ navigation, options, route }) => {
-    const title = getHeaderTitle(options, route.name);
-    return <LoginHeader navigation={navigation} title={title} />;
-  };
-  const { authState } = useContext(AuthContext);
-  return (
-    <>
-      {authState.userToken ? (
-        <NavigationContainer>
-          <Tab.Navigator
+const TabNav = ({ navigation }) => { //Used for logged in screen
+  	const Tab = createBottomTabNavigator();
+  	const profile = <ProfileButton />;
+  	const getHeader = () => {
+    	return <Header profile={profile} />;
+  	};
+	return (
+        <Tab.Navigator
             screenOptions={{
-              header: getHeader,
-              tabBarStyle: { paddingTop: 10, height: 85 },
+              	header: getHeader,
+              	tabBarStyle: { paddingTop: 10, height: 85 },
             }}
             initialRouteName="Friends"
-          >
+        >
             <Tab.Screen
-              name="Home"
-              component={Home}
-              options={{
-                tabBarIcon: ({ size, color }) => (
-                  <Foundation name="home" size={30} color={color} />
-                ),
-                tabBarActiveTintColor: "#A0AFFE",
-                tabBarLabelStyle: {
-                  fontFamily: "LatoRegular",
-                },
-              }}
-            />
-            <Tab.Screen
-              name="Add"
-              component={Add}
-              options={{
-                tabBarIcon: ({ size, color }) => (
-                  <MaterialIcons name="add-box" size={30} color={color} />
-                ),
-                tabBarActiveTintColor: "#A0AFFE",
-                tabBarLabelStyle: {
-                  fontFamily: "LatoRegular",
-                },
-              }}
+              	name="Home"
+              	component={Home}
+              	options={{
+                	tabBarIcon: ({ size, color }) => (
+                  		<Foundation name="home" size={30} color={color} />
+                	),
+                	tabBarActiveTintColor: "#A0AFFE",
+                	tabBarLabelStyle: {
+                  		fontFamily: "LatoRegular",
+                	},
+              	}}
             />
             <Tab.Screen
-              name="Friends"
-              component={Friends}
-              options={{
-                tabBarIcon: ({ size, color }) => (
-                  <FontAwesome5 name="user-friends" size={30} color={color} />
-                ),
-                tabBarActiveTintColor: "#A0AFFE",
-                tabBarLabelStyle: {
-                  fontFamily: "LatoRegular",
-                },
-              }}
+              	name="Add"
+              	component={Add}
+              	options={{
+                	tabBarIcon: ({ size, color }) => (
+                  		<MaterialIcons name="add-box" size={30} color={color} />
+                	),
+                	tabBarActiveTintColor: "#A0AFFE",
+                	tabBarLabelStyle: {
+                  		fontFamily: "LatoRegular",
+                	},
+              	}}
+              	listeners={{
+              		tabPress: e => {
+              			e.preventDefault();
+              			navigation.navigate("Add");
+              		}
+              	}}
             />
-          </Tab.Navigator>
-        </NavigationContainer>
-      ) : (
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen
-              name="To Auth"
-              component={ToAuth}
-              options={{
-                header: () => {
-                  return <></>;
-                },
-              }}
+            <Tab.Screen
+              	name="Friends"
+              	component={Friends}
+              	options={{
+                	tabBarIcon: ({ size, color }) => (
+                  		<FontAwesome5 name="user-friends" size={30} color={color} />
+                	),
+                	tabBarActiveTintColor: "#A0AFFE",
+                	tabBarLabelStyle: {
+                  		fontFamily: "LatoRegular",
+                	},
+              	}}
             />
-            <Stack.Screen
-              name="Log In"
-              component={LogIn}
-              options={{
-                header: getLoginHeader,
-              }}
-            />
-            <Stack.Screen
-              name="Sign Up"
-              component={SignUp}
-              options={{
-                header: getLoginHeader,
-              }}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-      )}
-    </>
-  );
+        </Tab.Navigator>
+    );
+}
+const StackNav = () => { //Used for login
+  	const Stack = createNativeStackNavigator();
+	return (
+        <Stack.Navigator
+            screenOptions={{
+              	header: () => {
+                	return <></>;
+              	},
+            }}
+        >
+            <Stack.Screen name="To Auth" component={ToAuth} />
+            <Stack.Screen name="Log In" component={LogIn} />
+            <Stack.Screen name="Sign Up" component={SignUp} />
+        </Stack.Navigator>
+    )
+}
+const Navigation = () => {
+  	const Stack = createNativeStackNavigator();
+  	const { authState } = useContext(AuthContext);
+  	return (
+    	<>
+      		{authState.userToken ? (
+        		<NavigationContainer>
+        			<Stack.Navigator
+        				screenOptions={{
+        					header: () => {
+        						return <></>;
+        					},
+        					presentation: true,
+        				}}
+        			>
+        				<Stack.Screen name="Tabs" component={TabNav}/>
+        				<Stack.Screen name="Add" component={Add}/>
+        			</Stack.Navigator>
+        		</NavigationContainer>
+      		) : (
+        		<NavigationContainer>
+        			<StackNav/>
+        		</NavigationContainer>
+      		)}
+    	</>
+  	);
 }
 
 export default Navigation;

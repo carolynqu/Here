@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const bodyParser = require("body-parser");
 const userRouter = require("./routes/users");
 const groupRouter = require("./routes/groups");
@@ -12,6 +13,11 @@ const { getAuth,
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+var corsOptions = {
+  	origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+app.use(cors(corsOptions));
 
 const auth = getAuth(fbApp);
 //connectAuthEmulator(auth, "http://localhost:9099");
@@ -51,7 +57,7 @@ app.post('/sign-up', async (req, res) => {
             });
 
         }).catch((error) => {
-            send(error.code);
+            res.send(error.code);
         });
 
 });
