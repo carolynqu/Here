@@ -92,13 +92,7 @@ function Navigation() {
               component={ToAuth}
               options={{
                 header: () => {
-                  return (
-                    <View
-                      style={{
-                        height: 110,
-                      }}
-                    ></View>
-                  );
+                  return <></>;
                 },
               }}
             />

@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
+import theme from "./theme.style";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -9,7 +10,7 @@ const screenWidth = Dimensions.get("window").width;
 //     paddingTop: 14,
 //   },
 
-const styles = StyleSheet.create({
+const globalStyles = StyleSheet.create({
   pageHeader: {
     fontFamily: "LatoRegular",
     fontSize: 25,
@@ -18,8 +19,20 @@ const styles = StyleSheet.create({
   icons: {
     color: "#9C9C9C",
   },
-
-  
+  buttonContainer: {
+    display: "flex",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    backgroundColor: theme.primaryColor,
+    width: 300,
+    height: 52,
+    borderRadius: 10,
+  },
+  buttonText: {
+    fontFamily: "LatoRegular",
+    fontSize: 18,
+    color: theme.darkText,
+  },
 });
 
-export { styles };
+export { globalStyles };
