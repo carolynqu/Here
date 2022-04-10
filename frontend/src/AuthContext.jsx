@@ -1,6 +1,6 @@
 import { createContext, useReducer, useEffect, useMemo } from "react";
 import { Alert } from "react-native";
-import { addUser, userSignIn, createGroup } from './api';
+import { addUser, userSignIn, createGroup, fetchGroups, updateMembers } from './api';
 export const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
   	const [authState, dispatch] = useReducer(
@@ -12,7 +12,6 @@ export const AuthContextProvider = ({ children }) => {
             			isSignout: false,
             			userToken: action.token,
             			friends: action.friends,
-            			groups: action.groups,
           			};
         		case "SIGN_OUT":
           			return {
@@ -36,7 +35,7 @@ export const AuthContextProvider = ({ children }) => {
           			const newGroups = [];
           			prevState.groups.forEach(group => {
           				if(group.id == action.groupId){
-          					group.members = action.newMembers;
+          					group.members = action.members;
           				}
           				newGroups.push(group);
           			});
@@ -71,24 +70,39 @@ export const AuthContextProvider = ({ children }) => {
       		signIn: async (values) => {
 				const resData = await userSignIn(values);
 				if(!resData) return false;
-        		dispatch({ type: "SIGN_IN", token: resData.id, groups: resData.groups, friends: resData.following });
+        		dispatch({ type: "SIGN_IN", token: resData.id, friends: resData.following });
       		},
       		signOut: () => dispatch({ type: "SIGN_OUT" }),
       		signUp: async (values) => {
       			const resData = await addUser(values);
       			if(!resData) return false;
-        		dispatch({ type: "SIGN_IN", token: resData.email });
+        		dispatch({ type: "SIGN_IN", token: resData.id });
       		},
-      		getGroups: async (data) => {
-        		await new Promise((resolve) => setTimeout(resolve, 1000));
-        		dispatch({ type: "GET_GROUPS", groups: sampleGroups });
+      		getGroups: async ({ id }) => {
+      			const resData = await fetchGroups({
+      				id: id 
+      			});
+        		dispatch({ type: "GET_GROUPS", groups: resData });
       		},
       		getFriends: async (data) => {
         		await new Promise((resolve) => setTimeout(resolve, 1000));
         		dispatch({ type: "GET_FRIENDS", friends: sampleFriends });
       		},
-      		setFriends: (groupId, newMembers) => {
-      			dispatch({ type: "SET_FRIENDS", groupId: groupId, newMembers: newMembers });
+      		setMembers: async ({ id, groupId, members }) => {
+      			dispatch({ type: "SET_FRIENDS", groupId: groupId, members: members });
+      			const memberIds = [];
+				members.forEach(m => {
+					memberIds.push(m.id);
+				});
+				const resData = await updateMembers({
+					id: id,
+					groupId: groupId,
+					memberIds: memberIds,
+				});
+				console.log(resData);
+				if(!resData){
+					console.log("Error updating members");
+				}
       		},
       		newGroup: async ({id, groupName, picture}) => {
       			const resData = await createGroup({ 
@@ -97,7 +111,7 @@ export const AuthContextProvider = ({ children }) => {
       				picture: picture
       			});
       			console.log(resData);
-        		//dispatch({ type: "NEW_GROUP", group: group });
+        		dispatch({ type: "NEW_GROUP", group: resData }); //Warning: gives members as IDs
       		},
       		getSessions: async (data) => {
         		await new Promise((resolve) => setTimeout(resolve, 1000));

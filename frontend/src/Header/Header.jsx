@@ -6,7 +6,7 @@ const Header = ({ profile }) => {
   return (
     <View style={styles.headerContainer}>
       <View style={styles.navigationContainer}>
-        <Text style={[globalStyles.navigationHeader]}>StudyWithMe</Text>
+        <Text style={[globalStyles.navigationHeader]}>Here</Text>
       </View>
       <View style={styles.profileButton}>{profile}</View>
     </View>

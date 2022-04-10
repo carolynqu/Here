@@ -36,9 +36,21 @@ export const userSignIn = async ({ email, password }) => {
   	});
 }
 export const createGroup = async ({ id, groupName, picture }) => {
-  	return await post('/create-group', {
+  	return await post('/groups/create-group', {
   		id: id,
   		groupName: groupName,
   		picture: picture,
   	});
+}
+export const updateMembers = async ({ id, groupId, memberIds }) => {
+	return await post('/groups/add', {
+		id: id,
+		group: groupId,
+		members: memberIds,
+	});
+}
+export const fetchGroups = async ({ id }) => {
+	return await post('/groups/', {
+		id: id,
+	});
 }
