@@ -22,6 +22,12 @@ const globalStyles = StyleSheet.create({
     textAlign: "center",
     color: theme.text,
   },
+  mainPageHeader: {
+    fontFamily: "LatoRegular",
+    fontSize: 25,
+    color: theme.text,
+    paddingTop: theme.horizMargin,
+  },
   icons: {
     color: "#9C9C9C",
   },
@@ -46,7 +52,18 @@ const globalStyles = StyleSheet.create({
     color: theme.darkText,
     paddingBottom: 15,
   },
-  scrollStyle: {},
+  input: {
+    height: 45,
+    borderStyle: "solid",
+    // borderBottomWidth: 0.5,
+    // borderColor: theme.lightText,
+    borderRadius: 5,
+    backgroundColor: theme.backgroundColor,
+    paddingHorizontal: 10,
+    fontSize: 15,
+    fontFamily: "LatoRegular",
+    color: theme.darkText,
+  },
 });
 
 export { globalStyles };
