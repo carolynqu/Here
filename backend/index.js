@@ -52,6 +52,7 @@ app.post('/sign-up', async (req, res) => {
                 docRef.get().then((doc) => {
                     let newData = doc.data();
                     newData.id = user.uid;
+                    newData.groups = [];
                     res.send(newData);
                 }).catch(e => {
                     res.send(e.code);
@@ -78,6 +79,7 @@ app.post('/sign-in', (req, res) => {
             docRef.get().then((doc) => {
                 let newData = doc.data();
                 newData.id = user.uid;
+                newData.groups = [];
                 res.send(newData);
             }).catch(e => {
                 res.send(e.code);
