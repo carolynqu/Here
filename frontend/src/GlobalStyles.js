@@ -21,6 +21,7 @@ const globalStyles = StyleSheet.create({
   },
   buttonContainer: {
     display: "flex",
+    flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "center",
     backgroundColor: theme.primaryColor,
@@ -32,6 +33,12 @@ const globalStyles = StyleSheet.create({
     fontFamily: "LatoRegular",
     fontSize: 18,
     color: theme.darkText,
+  },
+  inputBoxHeader: {
+    fontFamily: "LatoRegular",
+    fontSize: 18,
+    color: theme.darkText,
+    paddingBottom: 15,
   },
 });
 
