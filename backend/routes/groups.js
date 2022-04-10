@@ -1,6 +1,7 @@
 const express = require("express");
 const db = require("../db.js");
 const fbApp = require("../firebase.js");
+const Firestore = require("firebase/firestore");
 
 const router = express.Router();
 
@@ -23,8 +24,44 @@ const router = express.Router();
  * }
  * 
  */
-router.post("/create-group", (req,res)=>{
-    
+router.post("/create-group", async (req, res) => {
+
+    const user = req.body.id;
+    const name = req.body.groupName;
+    const picture = req.body.picture;
+
+    // Create new group
+    const collection = db.collection("groups");
+    collection.add({
+        name: name,
+        picture: picture,
+        members: Array.of(user)
+    }).then((docRef) => {
+
+        const currUser = db.collection("users").doc(user);
+
+        currUser.get()
+            .then((doc) => {
+                const userData = doc.data();
+                currUser.update({
+                    groups: [...userData.groups, docRef.id]
+                }).catch(e => {
+                    res.send(e.code);
+                });
+            });
+
+        docRef.get().then((doc) => {
+            res.send(doc.data());
+        }).catch(e => {
+            res.send(e.code);
+        });
+    }).catch(e => {
+        res.send(e.code);
+    });
+
+    // Add to users
+
+
 });
 
 // Leave a group
