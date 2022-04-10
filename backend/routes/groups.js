@@ -110,7 +110,7 @@ router.post("/leave", async (req, res) => {
  * }
  * 
  */
-router.post("/add", (req, res) => {
+router.post("/add", async (req, res) => {
 
     const group = req.body.group;
     const id = req.body.id;
@@ -125,49 +125,33 @@ router.post("/add", (req, res) => {
 
         userDb.doc(member).update({
             groups: fs.firestore.FieldValue.arrayUnion(group)
-        }).catch(e => {
-            res.send(e.code);
-        })
+        });
     });
 
     let membersArray = [];
 
     groupRef.update({
         members: [...members, id]
-    }).then(() => {
-        groupRef.get().then((doc) => {
-            const data = doc.data();
-            data.id = doc.id;
+    })
 
-            data.members = data.members.map(member => {
-                let firstName;
-                let lastName;
+    const groupDoc = await groupRef.get();
+    const data = groupDoc.data();
 
-                const res = await userDb.doc(member).get();
+    data.id = groupDoc.id;
+    for (let i = 0; i < members.length; i++) {
+        let currMember = await userDb.doc(members[i]).get();
+        let stuff = currMember.data();
 
-                /**
-                return userDb.doc(member).get().then((memberData) => {
-                    const stuff = memberData.data();
+        membersArray[i] = {
+            id: members[i],
+            firstName: stuff.firstName,
+            lastName: stuff.lastName
+        };
+    }
 
-                    firstName = stuff.firstName;
-                    lastName = stuff.lastName;
+    data.members = membersArray;
 
-                    const hello = {
-                        id: member,
-                        firstName: firstName,
-                        lastName: lastName
-                    };
-
-                    return hello;
-                }).catch(e => {
-                    res.send(e.code);
-                })
-                 */
-            })
-
-            res.send(data);
-        });
-    });
+    res.send(data);
 })
 
 // Get groups
@@ -186,8 +170,7 @@ router.post("/add", (req, res) => {
  * 
  */
 
-router.post("/", (req, res) => {
-
+router.post("/", async (req, res) => {
 })
 
 module.exports = router;
