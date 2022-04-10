@@ -3,6 +3,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const userRouter = require("./routes/users");
 const groupRouter = require("./routes/groups");
+const sessionRouter = require("./routes/sessions");
 const db = require("./db.js");
 const fbApp = require("./firebase.js");
 const { getAuth,
@@ -14,8 +15,8 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 var corsOptions = {
-  	origin: 'http://localhost:3000',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+    origin: 'http://localhost:3000',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 app.use(cors(corsOptions));
 
@@ -48,7 +49,9 @@ app.post('/sign-up', async (req, res) => {
 
             }).then(() => {
                 docRef.get().then((doc) => {
-                    res.send(doc.data());
+                    let newData = doc.data();
+                    newData.id = user.uid;
+                    res.send(newData);
                 }).catch(e => {
                     res.send(e.code);
                 });
@@ -72,7 +75,9 @@ app.post('/sign-in', (req, res) => {
             const docRef = db.collection("users").doc(user.uid);
 
             docRef.get().then((doc) => {
-                res.send(doc.data());
+                let newData = doc.data();
+                newData.id = user.uid;
+                res.send(newData);
             }).catch(e => {
                 res.send(e.code);
             });
@@ -95,6 +100,7 @@ app.get('/', logger, (req, res) => {
 
 app.use("/users", userRouter);
 app.use("/groups", groupRouter);
+app.use("/sessions", sessionRouter);
 
 function logger(req, res, next) {
     console.log(req.originalUrl)
