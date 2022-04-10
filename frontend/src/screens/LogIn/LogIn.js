@@ -58,16 +58,9 @@ const LogIn = ({ navigation }) => {
               control={control}
               required
               placeHolder="hello"
-              pattern={/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/} //https://www.w3schools.com/howto/howto_js_password_validation.asp
             />
             {errors.password && errors.password.type == "required" && (
               <Error>Required field.</Error>
-            )}
-            {errors.password && errors.password.type == "pattern" && (
-              <Error>
-                Password must contain at least one number, one uppercase and
-                lowercase letter, and at least 8 or more characters.
-              </Error>
             )}
           </View>
         </View>
