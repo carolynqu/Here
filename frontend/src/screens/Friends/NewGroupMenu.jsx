@@ -38,7 +38,7 @@ const NewGroupMenu = ({ navigation }) => {
       <TouchableOpacity style={styles.addPhoto}>
         <Text style={styles.addPhotoText}>Add Photo</Text>
       </TouchableOpacity>
-      <View>
+      	<View style={{width: "100%", paddingHorizontal: 20}}>
         <Text>New Group Name</Text>
 
         <Input
