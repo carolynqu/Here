@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import Collapsible from 'react-native-collapsible';
-import Member from './Member';
+import Friend from './Friend';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import AddFriendsButton from './AddFriendsButton';
 
-const Group = ({ group }) => {
+const Group = ({ group, navigation }) => {
 	const [ isCollapsed, updateCollapsed ] = useState(true);
 	const toggleCollapse = () => {
 		updateCollapsed(!isCollapsed);
@@ -17,13 +18,14 @@ const Group = ({ group }) => {
   	  			</Text>
   	  		</TouchableOpacity>
   	  		<Collapsible collapsed={isCollapsed}>
-  	  		<FlatList
-  	  			data={group.members}
-  	  			renderItem={({item}) => (
-  	  				<Member member={item}/>
-  	  			)
-  	  			}
-  	  		/>
+  	  			<FlatList
+  	  				data={group.members}
+  	  				renderItem={({item}) => (
+  	  					<Friend friend={item}/>
+  	  				)
+  	  				}
+  	  			/>
+  	  			<AddFriendsButton navigation={navigation}/>
   	  		</Collapsible>
   	  	</View>
   	);

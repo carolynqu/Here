@@ -1,14 +1,14 @@
 import { useContext } from 'react';
 import { StyleSheet, Text, View, Alert, TouchableOpacity } from 'react-native';
 
-const NewGroupButton = ({ group }) => {
+const NewGroupButton = ({ navigation }) => {
 	const newGroup = () => {
-		Alert.alert("Test");
+		navigation.navigate("NewGroupMenu");
 	}
   	return (
   	  	<View>
   	  		<TouchableOpacity onPress={newGroup}>
-  	  			<Text style={styles.groupName}>
+  	  			<Text style={styles.newGroupText}>
   	  				+ New Group
   	  			</Text>
   	  		</TouchableOpacity>
@@ -16,7 +16,7 @@ const NewGroupButton = ({ group }) => {
   	);
 }
 const styles = StyleSheet.create({
-	groupName: {
+	newGroupText: {
 		fontSize: 40,
 	}
 });

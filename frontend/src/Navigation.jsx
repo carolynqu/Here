@@ -42,6 +42,7 @@ function Navigation() {
               header: getHeader,
               tabBarStyle: { paddingTop: 10, height: 85 },
             }}
+            initialRouteName="Friends"
           >
             <Tab.Screen
               name="Home"
