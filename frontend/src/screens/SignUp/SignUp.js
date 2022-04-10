@@ -1,17 +1,15 @@
-import { useContext } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
-import { AuthContext } from '../../AuthContext';
 import { useForm } from 'react-hook-form';
 import { Input, PasswordInput, Error } from '../Fields';
+import { signUp } from '../../api';
 
 const SignUp = ({ navigation }) => {
-	const { signIn } = useContext(AuthContext);
 	const { control, handleSubmit, formState: { errors }, formState } = useForm();
 	const onSubmit = (values) => {
-		signIn();
+		signUp(values.firstName, values.lastName, values.email, values.password);
 	}
   	return (
-  	  	<View>
+  	  	<View style={styles.container}>
   	  		<Text>
   	  			First Name:
   	  		</Text>
@@ -97,6 +95,9 @@ const styles = StyleSheet.create({
 	},
 	link: {
 		color: 'blue',
+	},
+	container: {
+		marginTop: 50,
 	},
 });
 export default SignUp;

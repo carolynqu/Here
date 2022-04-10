@@ -51,7 +51,7 @@ app.post('/sign-up', async (req, res) => {
             });
 
         }).catch((error) => {
-            send(error.code);
+            res.send(error.code);
         });
 
 });
