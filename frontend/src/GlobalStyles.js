@@ -40,6 +40,7 @@ const globalStyles = StyleSheet.create({
     color: theme.darkText,
     paddingBottom: 15,
   },
+  scrollStyle: {},
 });
 
 export { globalStyles };
