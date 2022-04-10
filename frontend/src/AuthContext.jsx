@@ -46,6 +46,12 @@ export const AuthContextProvider = ({ children }) => {
             			...prevState,
             			groups: [...prevState.groups, action.group],
           			};
+        		case "GET_SESSIONS":
+          			return {
+          				...prevState,
+          				sessions: action.sessions,
+          				isLoading: false,
+          			};
       		}
     	},
     	{
@@ -55,6 +61,7 @@ export const AuthContextProvider = ({ children }) => {
       		//userToken: null,
       		groups: undefined,
       		friends: undefined,
+      		sessions: undefined,
     	}
   	);
   	const authContext = useMemo(
@@ -89,6 +96,10 @@ export const AuthContextProvider = ({ children }) => {
       		},
       		newGroup: (group) => {
         		dispatch({ type: "NEW_GROUP", group: group });
+      		},
+      		getSessions: async (data) => {
+        		await new Promise((resolve) => setTimeout(resolve, 1000));
+        		dispatch({ type: "GET_SESSIONS", sessions: sampleSessions });
       		},
     	}),
     	[]
@@ -176,4 +187,40 @@ const sampleFriends = [
         firstName: "Joseph",
         lastName: "Zhang",
     },
+];
+Date.prototype.addHours= function(h){ //https://stackoverflow.com/questions/1050720/adding-hours-to-javascript-date-object
+	    this.setHours(this.getHours()+h);
+	    return this;
+}
+const sampleSessions = [
+	{
+		id: 0,
+		name: "Event!",
+		isStudy: true,
+		isPrivate: true,
+		location: "place",
+		start: (new Date().addHours(0)).toJSON(),
+		end: (new Date().addHours(1)).toJSON(),
+		organizer: {
+			id: 2,
+			picture: "url",
+			firstName: "Carolyn",
+			lastName: "Qu",
+		},
+	},
+	{
+		id: 1,
+		name: "Event2!",
+		isStudy: true,
+		isPrivate: true,
+		location: "place",
+		start: (new Date().addHours(1)).toJSON(),
+		end: (new Date().addHours(2)).toJSON(),
+		organizer: {
+			id: 2,
+			picture: "url",
+			firstName: "Carolyn",
+			lastName: "Qu",
+		},
+	},
 ];

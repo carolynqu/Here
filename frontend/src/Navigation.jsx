@@ -33,7 +33,7 @@ const TabNav = ({ navigation }) => { //Used for logged in screen
               	header: getHeader,
               	tabBarStyle: { paddingTop: 10, height: 85 },
             }}
-            initialRouteName="Friends"
+            initialRouteName="Home"
         >
             <Tab.Screen
               	name="Home"
