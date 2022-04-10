@@ -29,6 +29,18 @@ export const AuthContextProvider = ({ children }) => {
           				friends: action.friends,
           				isLoading: false,
           			};
+          		case "SET_FRIENDS":
+          			const newGroups = [];
+          			prevState.groups.forEach(group => {
+          				if(group.id == action.groupId){
+          					group.members = action.newMembers;
+          				}
+          				newGroups.push(group);
+          			});
+          			return {
+          				...prevState,
+          				groups: newGroups,
+          			};
         		case "NEW_GROUP":
           			return {
             			...prevState,
@@ -71,6 +83,9 @@ export const AuthContextProvider = ({ children }) => {
       		getFriends: async (data) => {
         		await new Promise((resolve) => setTimeout(resolve, 1000));
         		dispatch({ type: "GET_FRIENDS", friends: sampleFriends });
+      		},
+      		setFriends: (groupId, newMembers) => {
+      			dispatch({ type: "SET_FRIENDS", groupId: groupId, newMembers: newMembers });
       		},
       		newGroup: (group) => {
         		dispatch({ type: "NEW_GROUP", group: group });

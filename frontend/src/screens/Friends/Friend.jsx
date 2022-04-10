@@ -4,7 +4,7 @@ const Friend = ({ friend }) => {
   	return (
   	  	<View>
   	  		<Text>
-  	  			{friend.firstName} {friend.lastName} x
+  	  			{friend.firstName} {friend.lastName}
   	  		</Text>
   	  	</View>
   	);
