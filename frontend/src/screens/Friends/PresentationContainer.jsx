@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
 	center: {
 		alignItems: "center",
 		justifyContent: "center",
+		width: "100%",
 	},
 });
 export default PresentationContainer;
