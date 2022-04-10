@@ -116,10 +116,5 @@ const styles = StyleSheet.create({
     color: theme.primaryColor,
     textAlign: "right",
   },
-
-  input: {
-    borderStyle: "solid",
-    backgroundColor: "pink",
-  },
 });
 export default LogIn;
