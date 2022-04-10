@@ -1,6 +1,6 @@
 import { createContext, useReducer, useEffect, useMemo } from "react";
 import { Alert } from "react-native";
-import { addUser, userSignIn } from './api';
+import { addUser, userSignIn, createGroup } from './api';
 export const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
   	const [authState, dispatch] = useReducer(
@@ -90,8 +90,14 @@ export const AuthContextProvider = ({ children }) => {
       		setFriends: (groupId, newMembers) => {
       			dispatch({ type: "SET_FRIENDS", groupId: groupId, newMembers: newMembers });
       		},
-      		newGroup: (group) => {
-        		dispatch({ type: "NEW_GROUP", group: group });
+      		newGroup: async ({id, groupName, picture}) => {
+      			const resData = await createGroup({ 
+      				id: id,
+      				groupName: groupName, 
+      				picture: picture
+      			});
+      			console.log(resData);
+        		//dispatch({ type: "NEW_GROUP", group: group });
       		},
       		getSessions: async (data) => {
         		await new Promise((resolve) => setTimeout(resolve, 1000));
