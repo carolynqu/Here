@@ -51,6 +51,10 @@ router.post("/create-session",async(req,res)=>{
         location: location,
     })
 
+    db.collection("users").doc(user).update({
+        studyId: sessionRef.id
+    })
+
     const combinedSet=new Set();
     for(let i=0;i<groupInvites.length;i++){
         const groupRef= await db.collection("groups").doc(groupInvites[i]).get();
@@ -64,10 +68,13 @@ router.post("/create-session",async(req,res)=>{
     })
 
     for(let item of combinedSet){
-        const userRef=await db.collection("users").doc(item).get();
-        const data= userRef.data();
-        data.availableSessions.push(sessionRef.id);
+        const userRef = await db.collection("users").doc(item);
+        userRef.update({
+            availableSessions: fs.firestore.FieldValue.arrayUnion(sessionRef.id),
+        })
     }
+
+
 
     const data = (await sessionRef.get()).data();
     data.id=sessionRef.id;
@@ -92,32 +99,34 @@ router.post("/create-session",async(req,res)=>{
  * @returns
  * return user object
  */
- router.delete("end-session",(req,res)=>{
-    const sessionid = req.body.sessionid;
+ router.delete("/end-session",async(req,res)=>{
+    const sessionid = req.body.id;
+    const sessionRef=await db.collection("sessions").doc(sessionid).get();
+    const sessionData=sessionRef.data();
 
-    const currSession=db.collection("sessions").doc(sessionid);
-
-    const currOrganizer=currSession.organizer;
-    currOrganizer.get().then((doc)=>{
-        currOrganizer.availableSessions.splice(sessionid,1);
+    const combinedSet=new Set();
+    for(let i=0;i<sessionData.groupInvites.length;i++){
+        const groupRef= await db.collection("groups").doc(sessionData.groupInvites[i]).get();
+        const data= groupRef.data();
+        for(let j=0;j<data.members.length;j++){
+            combinedSet.add(data.members[j]);
+        }
+    }
+    sessionData.friendInvites.forEach((friend)=>{
+        combinedSet.add(friend);
     })
 
-    for(let i=0;i<currSession.friendInvites.length;i++){
-        const currUser=db.collection("users").doc(currSession.friendInvites[i]);
-        currUser.get().then((doc)=>{
-            currUser.availableSessions.splice(sessionid,1);
-        })
-        const currGroup=db.collection("groups").doc(currSession.groupInvites[i]);
-        currGroup.get().then((doc)=>{
-            for(let j=0;j<currGroup.length;j++){
-                currUser=db.collection("users").doc(currGroup.members[j]);
-                currUser.availableSessions.splice(sessionid,1);
-            }
-        })
-
+    for(let item of combinedSet){
+        const userRef=db.collection("users").doc(item);
+        userRef.update({
+            availableSessions: fs.firestore.FieldValue.arrayRemove(sessionid)
+        });
     }
-
-    return
+    db.collection("users").doc(sessionData.organizer).update({
+        studyId: "0"
+    });
+    await db.collection("sessions").doc(sessionid).delete();
+    res.sendStatus(200);
 })
 
 /**
@@ -130,7 +139,7 @@ router.post("/create-session",async(req,res)=>{
  * @returns
  * array of available sessions
  */
- router.get("get-sessions",async(req,res)=>{
+ router.get("/get-sessions",async(req,res)=>{
     const user=req.body.id;
     const userRef=await db.collection("users").doc(user).get();
     const data=userRef.data();
@@ -154,20 +163,6 @@ router.post("/create-session",async(req,res)=>{
     }
     data.availableSessions=sessionsArray;
     res.send(data);
-})
-
-/**
- * @param
- * group id/list of invites
- *
- * @logic
- * invite people to study session
- *
- * @returns
- * study session
- */
- router.post("invite-session",(req,res)=>{
-
 })
 
 
