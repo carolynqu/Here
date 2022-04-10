@@ -1,5 +1,6 @@
 import { createContext, useReducer, useEffect, useMemo } from "react";
 import { Alert } from "react-native";
+import { addUser, userSignIn } from './api';
 export const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
   	const [authState, dispatch] = useReducer(
@@ -66,22 +67,17 @@ export const AuthContextProvider = ({ children }) => {
   	);
   	const authContext = useMemo(
     	() => ({
-      		signIn: async (data) => {
-        		// In a production app, we need to send some data (usually username, password) to server and get a token
-        		// We will also need to handle errors if sign in failed
-        		// After getting token, we need to persist the token using `SecureStore`
-        		// In the example, we'll use a dummy token
-
-        		dispatch({ type: "SIGN_IN", token: "dummy-auth-token" });
+      		signIn: async (values) => {
+				const resData = await userSignIn(values);
+				console.log(resData);
+				if(!resData) return false;
+        		dispatch({ type: "SIGN_IN", token: resData.email });
       		},
       		signOut: () => dispatch({ type: "SIGN_OUT" }),
-      		signUp: async (data) => {
-        		// In a production app, we need to send user data to server and get a token
-        		// We will also need to handle errors if sign up failed
-        		// After getting token, we need to persist the token using `SecureStore`
-        		// In the example, we'll use a dummy token
-
-        		dispatch({ type: "SIGN_OUT" });
+      		signUp: async (values) => {
+      			const resData = await addUser(values);
+      			if(!resData) return false;
+        		dispatch({ type: "SIGN_IN", token: resData.email });
       		},
       		getGroups: async (data) => {
         		await new Promise((resolve) => setTimeout(resolve, 1000));
