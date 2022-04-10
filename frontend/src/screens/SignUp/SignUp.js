@@ -24,7 +24,10 @@ const SignUp = ({ navigation }) => {
     <View style={{ marginTop: 80, marginHorizontal: 30 }}>
       <Text style={styles.header}>Sign Up</Text>
 
-      <ScrollView keyboardDismissMode="on-drag">
+      <ScrollView
+        showsVerticalScrollIndicator="false"
+        keyboardDismissMode="on-drag"
+      >
         <View style={{ marginTop: 50 }}>
           <View style={{ marginBottom: 20 }}>
             <Text style={globalStyles.inputBoxHeader}>First Name:</Text>

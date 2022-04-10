@@ -10,6 +10,7 @@ import {
 import { AuthContext } from "../../AuthContext";
 import { useForm } from "react-hook-form";
 import { Input, PasswordInput, Error } from "../Fields";
+import { ScrollView } from "react-native-gesture-handler";
 
 import theme from "../../theme.style";
 import { globalStyles } from "../../GlobalStyles";
@@ -29,70 +30,77 @@ const LogIn = ({ navigation }) => {
     <View style={{ marginTop: 80, marginHorizontal: 30 }}>
       <Text style={styles.header}>Log In</Text>
 
-      <Text style={styles.welcomeText}> Welcome Back! </Text>
-      <View style={{ marginTop: 60 }}>
-        <View style={{ marginBottom: 30 }}>
-          <Text style={globalStyles.inputBoxHeader}>School Email:</Text>
-          <Input
-            name="email"
-            control={control}
-            required
-            pattern={/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/}
-          />
-          {errors.email && errors.email.type == "required" && (
-            <Error>Required field.</Error>
-          )}
-          {errors.email && errors.email.type == "pattern" && (
-            <Error>Invalid email.</Error>
-          )}
+      <ScrollView
+        showsVerticalScrollIndicator="false"
+        keyboardDismissMode="on-drag"
+      >
+        <Text style={styles.welcomeText}> Welcome Back! </Text>
+        <View style={{ marginTop: 60 }}>
+          <View style={{ marginBottom: 30 }}>
+            <Text style={globalStyles.inputBoxHeader}>School Email:</Text>
+            <Input
+              name="email"
+              control={control}
+              required
+              pattern={/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/}
+            />
+            {errors.email && errors.email.type == "required" && (
+              <Error>Required field.</Error>
+            )}
+            {errors.email && errors.email.type == "pattern" && (
+              <Error>Invalid email.</Error>
+            )}
+          </View>
+          <View style={{ marginBottom: 15 }}>
+            <Text style={globalStyles.inputBoxHeader}>Password:</Text>
+            <PasswordInput
+              name="password"
+              control={control}
+              required
+              placeHolder="hello"
+              pattern={/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/} //https://www.w3schools.com/howto/howto_js_password_validation.asp
+            />
+            {errors.password && errors.password.type == "required" && (
+              <Error>Required field.</Error>
+            )}
+            {errors.password && errors.password.type == "pattern" && (
+              <Error>
+                Password must contain at least one number, one uppercase and
+                lowercase letter, and at least 8 or more characters.
+              </Error>
+            )}
+          </View>
         </View>
-        <View style={{ marginBottom: 15 }}>
-          <Text style={globalStyles.inputBoxHeader}>Password:</Text>
-          <PasswordInput
-            name="password"
-            control={control}
-            required
-            placeHolder="hello"
-            pattern={/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/} //https://www.w3schools.com/howto/howto_js_password_validation.asp
-          />
-          {errors.password && errors.password.type == "required" && (
-            <Error>Required field.</Error>
-          )}
-          {errors.password && errors.password.type == "pattern" && (
-            <Error>
-              Password must contain at least one number, one uppercase and
-              lowercase letter, and at least 8 or more characters.
-            </Error>
-          )}
+
+        <View>
+          <Text style={styles.forgotPassword}> Forgot password? </Text>
         </View>
-      </View>
 
-      <View>
-        <Text style={styles.forgotPassword}> Forgot password? </Text>
-      </View>
-
-      <View style={{ alignItems: "center", marginTop: 50 }}>
-        <Pressable
-          style={[globalStyles.buttonContainer]}
-          onPress={handleSubmit(onSubmit)}
-        >
-          <Text style={[globalStyles.buttonText, { color: "white" }]}>
-            Log In
-          </Text>
-        </Pressable>
-      </View>
-
-      <View style={{ marginTop: 20, alignItems: "center" }}>
-        <Text style={[styles.forgotPassword, { color: theme.darkText }]}>
-          Don't have an account?{" "}
-          <Text
-            style={[styles.forgotPassword, { textAlign: "center" }]}
-            onPress={() => navigation.navigate("Sign Up")}
+        <View style={{ alignItems: "center", marginTop: 50 }}>
+          <Pressable
+            style={[globalStyles.buttonContainer]}
+            onPress={handleSubmit(onSubmit)}
           >
-            Sign Up.
+            <Text style={[globalStyles.buttonText, { color: "white" }]}>
+              Log In
+            </Text>
+          </Pressable>
+        </View>
+
+        <View
+          style={{ marginTop: 20, paddingBottom: 400, alignItems: "center" }}
+        >
+          <Text style={[styles.forgotPassword, { color: theme.darkText }]}>
+            Don't have an account?{" "}
+            <Text
+              style={[styles.forgotPassword, { textAlign: "center" }]}
+              onPress={() => navigation.navigate("Sign Up")}
+            >
+              Sign Up.
+            </Text>
           </Text>
-        </Text>
-      </View>
+        </View>
+      </ScrollView>
     </View>
   );
 };
