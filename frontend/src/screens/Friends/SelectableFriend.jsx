@@ -4,7 +4,7 @@ import { useState } from 'react';
 const Friend = ({ friend, selected, updateSelected }) => {
 	const [isSelected, setSelected] = useState(selected);
 	const toggleSelected = () => {
-		updateSelected(friend.id, !isSelected);
+		updateSelected(friend, !isSelected);
 		setSelected(!isSelected);
 	}
   	return (
