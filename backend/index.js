@@ -5,6 +5,7 @@ const userRouter = require("./routes/users");
 const groupRouter = require("./routes/groups");
 const sessionRouter = require("./routes/sessions");
 const friendsRouter = require("./routes/friends");
+//const imageRouter = require("./routes/image");
 const db = require("./db.js");
 const fbApp = require("./firebase.js");
 const { getAuth,
@@ -111,6 +112,7 @@ app.use("/users", userRouter);
 app.use("/groups", groupRouter);
 app.use("/sessions", sessionRouter);
 app.use("/friends", friendsRouter);
+//app.use("/image", imageRouter);
 
 function logger(req, res, next) {
     console.log(req.originalUrl)
