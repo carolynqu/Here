@@ -17,7 +17,7 @@ import { groupStyles } from "./GroupStyles";
 
 const ModifyGroupMenu = ({ navigation, route }) => {
   const { group } = route.params;
-  const { authState, getFriends, setFriends } = useContext(AuthContext);
+  const { authState, getFriends, setMembers } = useContext(AuthContext);
   const [search, setSearch] = useState("");
   const selected = new Set();
   const updateSelected = (friend, value) => {
@@ -29,7 +29,11 @@ const ModifyGroupMenu = ({ navigation, route }) => {
   };
   const handleSubmit = () => {
     const updatedMembers = Array.from(selected);
-    setFriends(group.id, updatedMembers);
+    setMembers({
+    	id: authState.userToken,
+    	groupId: group.id, 
+    	members: updatedMembers
+    });
     existingFriends = group.members;
     navigation.goBack();
   };
