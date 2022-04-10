@@ -6,7 +6,12 @@ import { signUp } from '../../api';
 const SignUp = ({ navigation }) => {
 	const { control, handleSubmit, formState: { errors }, formState } = useForm();
 	const onSubmit = (values) => {
-		signUp(values.firstName, values.lastName, values.email, values.password);
+		signUp({
+			firstName: values.firstName,
+			lastName: values.lastName,
+			email: values.email,
+			password: values.password
+		});
 	}
   	return (
   	  	<View style={styles.container}>
