@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontFamily: "LatoSemiBold",
-    fontSize: 50,
+    fontSize: 70,
     color: theme.blackColor,
     textAlign: "center",
     paddingTop: 18,
