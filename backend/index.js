@@ -48,7 +48,9 @@ app.post('/sign-up', async (req, res) => {
 
             }).then(() => {
                 docRef.get().then((doc) => {
-                    res.send(doc.data());
+                    let newData = doc.data();
+                    newData.id = user.uid;
+                    res.send(newData);
                 }).catch(e => {
                     res.send(e.code);
                 });

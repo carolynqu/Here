@@ -171,6 +171,42 @@ router.post("/add", async (req, res) => {
  */
 
 router.post("/", async (req, res) => {
+    const id = req.body.id;
+
+    const docRef = await db.collection("users").doc(id).get();
+    const data = docRef.data();
+    const groups = data.groups;
+
+    let arr = [];
+
+    for (let i = 0; i < groups.length; i++) {
+        let currGroup = await db.collection("groups").doc(groups[i]).get();
+        let stuff = currGroup.data();
+
+        // Now modify the members
+        let membersArray = [];
+        let members = stuff.members;
+
+        stuff.id = groups[i];
+
+        for (let i = 0; i < members.length; i++) {
+            let currMember = await db.collection("users").doc(members[i]).get();
+            let memberStuff = currMember.data();
+
+            membersArray[i] = {
+                id: members[i],
+                firstName: stuff.firstName,
+                lastName: stuff.lastName
+            };
+        }
+
+        stuff.members = membersArray;
+
+
+        arr[i] = stuff;
+    }
+
+    res.send(arr);
 })
 
 module.exports = router;
