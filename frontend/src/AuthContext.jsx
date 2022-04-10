@@ -236,8 +236,38 @@ const sampleSessions = [
 		organizer: {
 			id: 2,
 			picture: "url",
+			firstName: "Alex",
+			lastName: "Shi",
+		},
+	},
+	{
+		id: 2,
+		name: "Lunch",
+		isStudy: true,
+		isPrivate: true,
+		location: "TD Dining Hall",
+		start: (new Date().addHours(0)).toJSON(),
+		end: (new Date().addHours(1)).toJSON(),
+		organizer: {
+			id: 3,
+			picture: "url",
 			firstName: "Nathan",
 			lastName: "Ahn",
+		},
+	},
+	{
+		id: 3,
+		name: "Open Soccer Game",
+		isStudy: true,
+		isPrivate: true,
+		location: "Cross Campus",
+		start: (new Date().addHours(3)).toJSON(),
+		end: (new Date().addHours(4)).toJSON(),
+		organizer: {
+			id: 3,
+			picture: "url",
+			firstName: "Joseph",
+			lastName: "Zhang",
 		},
 	},
 ];

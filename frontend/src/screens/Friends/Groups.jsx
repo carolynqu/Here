@@ -36,7 +36,6 @@ const Groups = ({ navigation }) => {
       		});
     	});
   	}
-  	console.log(groups)
   	return (
     	<View style={{ marginHorizontal: theme.horizMargin }}>
       		<Text style={globalStyles.mainPageHeader}> Your Groups</Text>
