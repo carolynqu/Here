@@ -94,7 +94,8 @@ router.post("/leave", async (req, res) => {
 /**
  * @param
  * group id
- * array of member email
+ * id
+ * array of member ids
  * 
  * @logic
  * search each member email, if they are there, then add their id to array
@@ -115,23 +116,55 @@ router.post("/add", (req, res) => {
     const id = req.body.id;
     const members = req.body.members;
 
+    const userDb = db.collection("users");
+
     const groupRef = db.collection("groups").doc(group);
 
     members.forEach((member) => {
         console.log(member);
 
-        db.collection("users").doc(member).update({
+        userDb.doc(member).update({
             groups: fs.firestore.FieldValue.arrayUnion(group)
         }).catch(e => {
             res.send(e.code);
         })
     });
 
+    let membersArray = [];
+
     groupRef.update({
         members: [...members, id]
     }).then(() => {
         groupRef.get().then((doc) => {
             const data = doc.data();
+            data.id = doc.id;
+
+            data.members = data.members.map(member => {
+                let firstName;
+                let lastName;
+
+                const res = await userDb.doc(member).get();
+
+                /**
+                return userDb.doc(member).get().then((memberData) => {
+                    const stuff = memberData.data();
+
+                    firstName = stuff.firstName;
+                    lastName = stuff.lastName;
+
+                    const hello = {
+                        id: member,
+                        firstName: firstName,
+                        lastName: lastName
+                    };
+
+                    return hello;
+                }).catch(e => {
+                    res.send(e.code);
+                })
+                 */
+            })
+
             res.send(data);
         });
     });
@@ -152,5 +185,9 @@ router.post("/add", (req, res) => {
  * array of group objects
  * 
  */
+
+router.post("/", (req, res) => {
+
+})
 
 module.exports = router;
