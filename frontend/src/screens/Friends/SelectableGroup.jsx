@@ -12,16 +12,16 @@ import { groupStyles } from "./GroupStyles";
 import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 
-const SelectableFriend = ({ friend, selected, updateSelected }) => {
+const SelectableGroup = ({ group, selected, updateSelected }) => {
   const [isSelected, setSelected] = useState(selected);
   const toggleSelected = () => {
-    updateSelected(friend, !isSelected);
+    updateSelected(group, !isSelected);
     setSelected(!isSelected);
   };
   return (
     <View>
       <Pressable onPress={toggleSelected}>
-        <Text style={styles.friendName}>
+        <Text style={styles.groupName}>
           {isSelected ? (
             <Ionicons
               name="ios-checkbox-sharp"
@@ -36,7 +36,7 @@ const SelectableFriend = ({ friend, selected, updateSelected }) => {
             />
           )}{" "}
           {"  "}
-          {friend.firstName} {friend.lastName}
+          {group.name}
         </Text>
       </Pressable>
     </View>
@@ -44,7 +44,7 @@ const SelectableFriend = ({ friend, selected, updateSelected }) => {
 };
 
 const styles = StyleSheet.create({
-  friendName: {
+  groupName: {
     fontFamily: "LatoRegular",
     fontSize: 20,
     color: theme.darkText,
@@ -52,4 +52,4 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
 });
-export default SelectableFriend;
+export default SelectableGroup;
