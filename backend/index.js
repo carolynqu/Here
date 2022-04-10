@@ -4,12 +4,13 @@ const bodyParser = require("body-parser");
 const userRouter = require("./routes/users");
 const groupRouter = require("./routes/groups");
 const sessionRouter = require("./routes/sessions");
+const friendsRouter = require("./routes/friends");
 const db = require("./db.js");
 const fbApp = require("./firebase.js");
 const { getAuth,
-    connectAuthEmulator,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword } = require("firebase/auth");
+const fs = require("firebase-admin");
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -51,6 +52,7 @@ app.post('/sign-up', async (req, res) => {
                 docRef.get().then((doc) => {
                     let newData = doc.data();
                     newData.id = user.uid;
+                    newData.groups = [];
                     res.send(newData);
                 }).catch(e => {
                     res.send(e.code);
@@ -77,6 +79,7 @@ app.post('/sign-in', (req, res) => {
             docRef.get().then((doc) => {
                 let newData = doc.data();
                 newData.id = user.uid;
+                newData.groups = [];
                 res.send(newData);
             }).catch(e => {
                 res.send(e.code);
@@ -98,9 +101,16 @@ app.get('/', logger, (req, res) => {
     res.send("Hello");
 })
 
+app.get('/test', (req, res) => {
+    let user = auth.currentUser;
+
+    res.send("HELLO!");
+})
+
 app.use("/users", userRouter);
 app.use("/groups", groupRouter);
 app.use("/sessions", sessionRouter);
+app.use("/friends", friendsRouter);
 
 function logger(req, res, next) {
     console.log(req.originalUrl)
