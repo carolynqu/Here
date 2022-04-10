@@ -1,8 +1,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const userRouter = require("./routes/users");
 const db = require("./db.js");
 const fbApp = require("./firebase.js");
-const { getAuth, connectAuthEmulator, createUserWithEmailAndPassword } = require("firebase/auth");
+const { getAuth,
+    connectAuthEmulator,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword } = require("firebase/auth");
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -18,7 +22,7 @@ app.post('/sign-up', async (req, res) => {
     const lastName = req.body.lastName;
     const email = req.body.email;
     const password = req.body.password;
-    
+
     createUserWithEmailAndPassword(auth, email, password)
         .then(userCredential => {
             const user = userCredential.user;
@@ -34,7 +38,7 @@ app.post('/sign-up', async (req, res) => {
                 groups: [],
                 previousLocations: [],
                 availableSessions: [],
-    
+
             }).then(() => {
                 docRef.get().then((doc) => {
                     res.send(doc.data());
@@ -51,6 +55,27 @@ app.post('/sign-up', async (req, res) => {
 
 });
 
+app.post('/sign-in', (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+
+    signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            var user = userCredential.user;
+            const docRef = db.collection("users").doc(user.uid);
+
+            docRef.get().then((doc) => {
+                res.send(doc.data());
+            }).catch(e => {
+                res.send(e.code);
+            });
+        })
+        .catch((error) => {
+            var errorCode = error.code;
+            res.send(errorCode);
+        });
+})
+
 app.get('/', logger, (req, res) => {
     db.collection("groups").get().then((user) => {
         user.forEach((doc) => {
@@ -65,10 +90,6 @@ function logger(req, res, next) {
     console.log(req.originalUrl)
     next()
 }
-
-const userRouter = require("./routes/users");
-const e = require("express");
-const { connect } = require("./routes/users");
 
 app.use("/users", userRouter)
 
