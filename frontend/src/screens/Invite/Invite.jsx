@@ -41,8 +41,9 @@ const Invite = ({ navigation, route }) => {
   	};
 
   	if (!authState.friends) {
-    	getFriends();
+    	getFriends({ id: authState.userToken });
   	}
+  	//TODO: fix issue of search typing and then deleting
   	const friends = [];
   	if (authState && authState.friends) {
     	authState.friends.forEach((friend) => {

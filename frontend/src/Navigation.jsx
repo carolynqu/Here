@@ -112,6 +112,8 @@ const Navigation = () => {
         					header: () => {
         						return <></>;
         					},
+        					gestureDirection: 'vertical',
+        					gestureResponseDistance: 10,
         					presentation: true,
         				}}
         			>

@@ -12,7 +12,7 @@ export const AuthContextProvider = ({ children }) => {
 						...prevState,
 						isSignout: false,
 						userToken: action.token,
-						friends: action.friends,
+						//friends: action.friends,
 					};
 				case "SIGN_OUT":
 					return {
@@ -69,27 +69,26 @@ export const AuthContextProvider = ({ children }) => {
 	const authContext = useMemo(
 		() => ({
 			signIn: async (values) => {
-				const resData = await userSignIn(values);
-				if (!resData) return false;
-				dispatch({ type: "SIGN_IN", token: resData.id, friends: resData.following });
+				const res = await userSignIn(values);
+				if (!res) return false;
+				dispatch({ type: "SIGN_IN", token: res.id, friends: res.following });
 			},
 			signOut: () => dispatch({ type: "SIGN_OUT" }),
 			signUp: async (values) => {
-				const resData = await addUser(values);
-				if (!resData) return false;
-				dispatch({ type: "SIGN_IN", token: resData.id });
+				const res = await addUser(values);
+				if (!res) return false;
+				dispatch({ type: "SIGN_IN", token: res.id });
 			},
 			getGroups: async ({ id }) => {
-				const resData = await fetchGroups({
+				const res = await fetchGroups({
 					id: id
 				});
-				dispatch({ type: "GET_GROUPS", groups: resData });
+				dispatch({ type: "GET_GROUPS", groups: res });
 			},
 			getFriends: async ({ id }) => {
 				const res = await getFriends({
 					id: id
 				});
-				console.log(res);
 				dispatch({ type: "GET_FRIENDS", friends: res });
 			},
 			setMembers: async ({ id, groupId, members }) => {
@@ -98,24 +97,22 @@ export const AuthContextProvider = ({ children }) => {
 				members.forEach(m => {
 					memberIds.push(m.id);
 				});
-				const resData = await updateMembers({
+				const res = await updateMembers({
 					id: id,
 					groupId: groupId,
 					memberIds: memberIds,
 				});
-				console.log(resData);
-				if (!resData) {
+				if (!res) {
 					console.log("Error updating members");
 				}
 			},
 			newGroup: async ({ id, groupName, picture }) => {
-				const resData = await createGroup({
+				const res = await createGroup({
 					id: id,
 					groupName: groupName,
 					picture: picture
 				});
-				console.log(resData);
-				dispatch({ type: "NEW_GROUP", group: resData }); //Warning: gives members as IDs
+				dispatch({ type: "NEW_GROUP", group: res }); //Warning: gives members as IDs
 			},
 			getSessions: async (data) => {
 				await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -215,10 +212,10 @@ Date.prototype.addHours = function (h) { //https://stackoverflow.com/questions/1
 const sampleSessions = [
 	{
 		id: 0,
-		name: "Event!",
+		name: "CPSC 323 Study Session",
 		isStudy: true,
 		isPrivate: true,
-		location: "place",
+		location: "Bass Library",
 		start: (new Date().addHours(0)).toJSON(),
 		end: (new Date().addHours(1)).toJSON(),
 		organizer: {
@@ -230,17 +227,17 @@ const sampleSessions = [
 	},
 	{
 		id: 1,
-		name: "Event2!",
+		name: "Orgo Review",
 		isStudy: true,
 		isPrivate: true,
-		location: "place",
+		location: "Sterling",
 		start: (new Date().addHours(1)).toJSON(),
 		end: (new Date().addHours(2)).toJSON(),
 		organizer: {
 			id: 2,
 			picture: "url",
-			firstName: "Carolyn",
-			lastName: "Qu",
+			firstName: "Nathan",
+			lastName: "Ahn",
 		},
 	},
 ];
