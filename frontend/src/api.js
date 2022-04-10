@@ -1,6 +1,6 @@
 import axios from 'axios';
 //const baseUrl = 'http://localhost:3000';
-const baseUrl = 'http://172.29.20.120:3000';
+const baseUrl = 'http://172.29.23.221:3000';
 
 const post = async (endpoint, data) => {
 	const json = JSON.stringify(data);
