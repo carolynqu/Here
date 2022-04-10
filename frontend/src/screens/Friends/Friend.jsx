@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native';
 
-const Member = ({ member }) => {
+const Friend = ({ friend }) => {
   	return (
   	  	<View>
   	  		<Text>
-  	  			{member.firstName} {member.lastName} x
+  	  			{friend.firstName} {friend.lastName} x
   	  		</Text>
   	  	</View>
   	);
@@ -12,4 +12,4 @@ const Member = ({ member }) => {
 
 const styles = StyleSheet.create({
 });
-export default Member;
+export default Friend;

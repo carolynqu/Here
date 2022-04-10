@@ -5,7 +5,7 @@ import Group from './Group';
 import NewGroupButton from './NewGroupButton';
 import Search from './Search';
 
-const Groups = () => {
+const Groups = ({ navigation }) => {
 	const { authState, getGroups } = useContext(AuthContext);
 	const [ search, setSearch ] = useState("");
 	if(!authState.groups){
@@ -31,11 +31,11 @@ const Groups = () => {
   	return (
   	  	<View>
   	  		<Search search={search} setSearch={setSearch}/>
-  	  		<NewGroupButton/>
+  	  		<NewGroupButton navigation={navigation}/>
   	  		<FlatList
   	  			data={groups}
   	  			renderItem={({item}) => (
-  	  				<Group group={item}/>
+  	  				<Group group={item} navigation={navigation}/>
   	  			)
   	  			}
   	  		/>
