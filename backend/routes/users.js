@@ -1,8 +1,14 @@
-const express=require("express")
-const router=express.Router()
+const express = require("express");
+const db = require("../db.js");
+const router = express.Router();
 
-router.get("/",(req,res)=>{
-    console.log(req.query.name)
+router.get("/", (req,res)=>{
+    db.collection("groups").get().then((user) => {
+        user.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+        });
+    });
     res.send("Users")
 })
 
