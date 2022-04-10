@@ -4,6 +4,7 @@ export default {
   darkText: "#565656",
   text: "#455266",
   backgroundColor: "#E4E4E4",
+  lightestColor: "#FAFAFA",
   blackColor: "#000000",
   horizMargin: 30,
 };

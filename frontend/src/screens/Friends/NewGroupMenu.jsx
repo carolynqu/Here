@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Alert,
   Button,
+  Pressable,
 } from "react-native";
 import { useForm } from "react-hook-form";
 import { Input, Error } from "../Fields";
@@ -38,8 +39,14 @@ const NewGroupMenu = ({ navigation }) => {
       <TouchableOpacity style={styles.addPhoto}>
         <Text style={styles.addPhotoText}>Add Photo</Text>
       </TouchableOpacity>
-      	<View style={{width: "100%", paddingHorizontal: 20}}>
-        <Text>New Group Name</Text>
+      <View
+        style={{
+          width: "100%",
+          paddingHorizontal: theme.horizMargin,
+          paddingTop: 30,
+        }}
+      >
+        <Text style={globalStyles.inputBoxHeader}>New Group Name</Text>
 
         <Input
           name="groupName"
@@ -56,8 +63,16 @@ const NewGroupMenu = ({ navigation }) => {
           </Error>
         )}
       </View>
-
-      <Button title="Next" onPress={handleSubmit(onSubmit)} />
+      <View style={{ alignItems: "center", marginTop: 30 }}>
+        <Pressable
+          style={[globalStyles.buttonContainer]}
+          onPress={handleSubmit(onSubmit)}
+        >
+          <Text style={[globalStyles.buttonText, { color: "white" }]}>
+            Next
+          </Text>
+        </Pressable>
+      </View>
     </PresentationContainer>
   );
 };
@@ -65,12 +80,12 @@ const styles = StyleSheet.create({
   addPhoto: {
     borderRadius: 90,
     backgroundColor: theme.primaryColor,
-    height: 120,
-    width: 120,
+    height: 150,
+    width: 150,
     overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 20,
+    marginTop: 30,
   },
   addPhotoText: {
     fontFamily: "LatoRegular",
