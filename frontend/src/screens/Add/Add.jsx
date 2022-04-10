@@ -24,9 +24,10 @@ const Add = ({ navigation }) => {
     formState,
   } = useForm();
   const onSubmit = (values) => {
-    console.log(values);
-    console.log(from);
-    console.log(until);
+  	  navigation.popToTop();
+  	  navigation.navigate("Invite", {
+  	  	  values: values,
+  	  });
   };
   return (
     <PresentationContainer title="Add New Event" navigation={navigation}>
@@ -104,7 +105,7 @@ const Add = ({ navigation }) => {
       <View style={{ alignItems: "center", marginTop: 50 }}>
         <Pressable
           style={[globalStyles.buttonContainer]}
-          onPress={handleSubmit}
+          onPress={handleSubmit(onSubmit)}
         >
           <Text style={[globalStyles.buttonText, { color: "white" }]}>
             Next
