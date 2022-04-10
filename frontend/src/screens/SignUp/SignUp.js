@@ -6,6 +6,9 @@ import { signUp } from "../../api";
 import theme from "../../theme.style";
 import { globalStyles } from "../../GlobalStyles";
 import { ScrollView } from "react-native-gesture-handler";
+import { Dimensions } from "react-native";
+
+const screenHeight = Dimensions.get("window").height;
 
 const SignUp = ({ navigation }) => {
   const {
@@ -21,7 +24,10 @@ const SignUp = ({ navigation }) => {
     <View style={{ marginTop: 80, marginHorizontal: 30 }}>
       <Text style={styles.header}>Sign Up</Text>
 
-      <ScrollView showsVerticalScrollIndicator={true}>
+      <ScrollView
+        showsVerticalScrollIndicator="false"
+        keyboardDismissMode="on-drag"
+      >
         <View style={{ marginTop: 50 }}>
           <View style={{ marginBottom: 20 }}>
             <Text style={globalStyles.inputBoxHeader}>First Name:</Text>
@@ -105,7 +111,9 @@ const SignUp = ({ navigation }) => {
               </Text>
             </Pressable>
           </View>
-          <View style={{ marginTop: 20, alignItems: "center" }}>
+          <View
+            style={{ marginTop: 20, paddingBottom: 400, alignItems: "center" }}
+          >
             <Text style={[styles.forgotPassword, { color: theme.darkText }]}>
               Already have an account?{" "}
               <Text
@@ -133,19 +141,6 @@ const styles = StyleSheet.create({
     fontFamily: "LatoSemiBold",
     fontSize: 20,
     color: theme.text,
-  },
-  error: {
-    color: "red",
-  },
-  input: {
-    borderStyle: "solid",
-    backgroundColor: "pink",
-  },
-  link: {
-    color: "blue",
-  },
-  container: {
-    marginTop: 50,
   },
 });
 export default SignUp;
