@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const userRouter = require("./routes/users");
+const groupRouter = require("./routes/groups");
 const db = require("./db.js");
 const fbApp = require("./firebase.js");
 const { getAuth,
@@ -86,11 +87,13 @@ app.get('/', logger, (req, res) => {
     res.send("Hello");
 })
 
+app.use("/users", userRouter);
+app.use("/groups", groupRouter);
+
 function logger(req, res, next) {
     console.log(req.originalUrl)
     next()
 }
 
-app.use("/users", userRouter)
 
 app.listen(3000)
