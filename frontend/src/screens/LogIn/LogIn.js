@@ -52,6 +52,7 @@ const LogIn = ({ navigation }) => {
             name="password"
             control={control}
             required
+            placeHolder="hello"
             pattern={/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/} //https://www.w3schools.com/howto/howto_js_password_validation.asp
           />
           {errors.password && errors.password.type == "required" && (

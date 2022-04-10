@@ -1,5 +1,8 @@
 import { StyleSheet, Text, TextInput } from "react-native";
 import { Controller } from "react-hook-form";
+import theme from "../theme.style";
+import { globalStyles } from "../GlobalStyles";
+
 export const Input = ({
   name,
   control,
@@ -69,7 +72,9 @@ const styles = StyleSheet.create({
     color: "red",
   },
   input: {
+    height: 45,
     borderStyle: "solid",
-    backgroundColor: "pink",
+    borderRadius: 10,
+    backgroundColor: theme.backgroundColor,
   },
 });
