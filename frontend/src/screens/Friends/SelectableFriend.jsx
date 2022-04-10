@@ -1,11 +1,19 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useState } from 'react';
 
-const Friend = ({ friend }) => {
+const Friend = ({ friend, selected, updateSelected }) => {
+	const [isSelected, setSelected] = useState(selected);
+	const toggleSelected = () => {
+		updateSelected(friend.id, !isSelected);
+		setSelected(!isSelected);
+	}
   	return (
   	  	<View>
-  	  		<Text>
-  	  			{friend.firstName} {friend.lastName} x
-  	  		</Text>
+  	  		<TouchableOpacity onPress={toggleSelected}>
+  	  			<Text>
+  	  				{friend.firstName} {friend.lastName} {isSelected ? 'x' : 'o'}
+  	  			</Text>
+  	  		</TouchableOpacity>
   	  	</View>
   	);
 }

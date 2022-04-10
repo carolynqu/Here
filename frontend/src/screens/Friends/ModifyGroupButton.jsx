@@ -11,7 +11,7 @@ const ModifyGroupButton = ({ navigation, group }) => {
   	  	<View>
   	  		<TouchableOpacity onPress={modifyGroup}>
   	  			<Text style={styles.friend}>
-  	  				+ Modfy Group
+  	  				+ Modify Group
   	  			</Text>
   	  		</TouchableOpacity>
   	  	</View>
