@@ -27,7 +27,7 @@ const LogIn = ({ navigation }) => {
     signIn();
   };
   return (
-    <View style={{ marginTop: 80, marginHorizontal: 30 }}>
+    <View style={{ marginTop: 80, marginHorizontal: theme.horizMargin }}>
       <Text style={styles.header}>Log In</Text>
 
       <ScrollView

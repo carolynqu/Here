@@ -7,27 +7,30 @@ import SelectableFriend from './SelectableFriend';
 
 const ModifyGroupMenu = ({ navigation, route }) => {
 	const { group } = route.params;
-	const { authState, getFriends } = useContext(AuthContext);
+	const { authState, getFriends, setFriends } = useContext(AuthContext);
 	const [ search, setSearch ] = useState("");
 	const selected = new Set();
-	const updateSelected = (id, value) => {
+	const updateSelected = (friend, value) => {
 		if(value){
-			selected.add(id);
+			selected.add(friend);
 		}
 		else{
-			selected.delete(id);
+			selected.delete(friend);
 		}
 	}
 	const handleSubmit = () => {
 		const updatedMembers = Array.from(selected);
+		setFriends(group.id, updatedMembers);
+		existingFriends = group.members;
 		navigation.goBack();
 	}
 	if(!authState.friends){
 		getFriends();
 	}
-	const existingFriends = group.members;
+	var existingFriends = group.members;
 	const existingFriendsSet = new Set();
 	existingFriends.forEach(friend => {
+		selected.add(friend);
 		existingFriendsSet.add(friend.id);
 	});
 	const friends = [];
