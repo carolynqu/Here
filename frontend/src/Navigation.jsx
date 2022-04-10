@@ -28,10 +28,7 @@ function Navigation() {
   const getHeader = () => {
     return <Header profile={profile} />;
   };
-  const getLoginHeader = ({ navigation, options, route }) => {
-    const title = getHeaderTitle(options, route.name);
-    return <LoginHeader navigation={navigation} title={title} />;
-  };
+
   const { authState } = useContext(AuthContext);
   return (
     <>
@@ -87,30 +84,16 @@ function Navigation() {
         </NavigationContainer>
       ) : (
         <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen
-              name="To Auth"
-              component={ToAuth}
-              options={{
-                header: () => {
-                  return <></>;
-                },
-              }}
-            />
-            <Stack.Screen
-              name="Log In"
-              component={LogIn}
-              options={{
-                header: getLoginHeader,
-              }}
-            />
-            <Stack.Screen
-              name="Sign Up"
-              component={SignUp}
-              options={{
-                header: getLoginHeader,
-              }}
-            />
+          <Stack.Navigator
+            screenOptions={{
+              header: () => {
+                return <></>;
+              },
+            }}
+          >
+            <Stack.Screen name="To Auth" component={ToAuth} />
+            <Stack.Screen name="Log In" component={LogIn} />
+            <Stack.Screen name="Sign Up" component={SignUp} />
           </Stack.Navigator>
         </NavigationContainer>
       )}
