@@ -11,10 +11,10 @@ const router = express.Router();
  * group name
  * creator
  * picture
- * 
+ *
  * @logic
  * add group to user's groups list
- * 
+ *
  * @returns
  * {
  *  id
@@ -22,7 +22,7 @@ const router = express.Router();
  *  picture (empty)
  *  members [userId]
  * }
- * 
+ *
  */
 router.post("/create-group", async (req, res) => {
 
@@ -65,13 +65,13 @@ router.post("/create-group", async (req, res) => {
  * @param
  * group id
  * id
- * 
+ *
  * @logic
  * remove group from user's groups list
- * 
+ *
  * @returns
  * User object
- * 
+ *
  */
 
 /**
@@ -96,11 +96,11 @@ router.post("/leave", async (req, res) => {
  * group id
  * id
  * array of member ids
- * 
+ *
  * @logic
  * search each member email, if they are there, then add their id to array
  * else add them to a send-to list (TBD)
- * 
+ *
  * @returns
  * {
  *  id
@@ -108,7 +108,7 @@ router.post("/leave", async (req, res) => {
  *  picture (empty)
  *  members [all members]
  * }
- * 
+ *
  */
 router.post("/add", async (req, res) => {
 
@@ -156,18 +156,18 @@ router.post("/add", async (req, res) => {
 
 // Get groups
 /**
- * 
+ *
  * @param
  * id in header
- * 
+ *
  * @logic
  * pull user.groups
  * get each group
  * add to array
- * 
+ *
  * @returns
  * array of group objects
- * 
+ *
  */
 
 router.post("/", async (req, res) => {
