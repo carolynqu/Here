@@ -74,21 +74,6 @@ router.post("/create-group", async (req, res) => {
  *
  */
 
-/**
-router.post("/leave", async (req, res) => {
-
-    const user = req.body.id;
-    const group = req.body.groupId;
-
-    // Create new group
-    const collection = db.collection("groups");
-    collection.doc(group).get()
-        .then((docRef) => {
-
-        })
-});
- */
-
 
 // Invite someone to group
 /**
