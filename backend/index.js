@@ -8,9 +8,9 @@ const friendsRouter = require("./routes/friends");
 const db = require("./db.js");
 const fbApp = require("./firebase.js");
 const { getAuth,
-    connectAuthEmulator,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword } = require("firebase/auth");
+const fs = require("firebase-admin");
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -97,6 +97,12 @@ app.get('/', logger, (req, res) => {
         });
     });
     res.send("Hello");
+})
+
+app.get('/test', (req, res) => {
+    let user = auth.currentUser;
+
+    res.send("HELLO!");
 })
 
 app.use("/users", userRouter);
