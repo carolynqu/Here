@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import Home from "./screens/Home/Home";
 import Add from "./screens/Add/Add";
+import Invite from "./screens/Invite/Invite";
 import Friends from "./screens/Friends/Friends";
 import { View, Text, Alert } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
@@ -116,6 +117,7 @@ const Navigation = () => {
         			>
         				<Stack.Screen name="Tabs" component={TabNav}/>
         				<Stack.Screen name="Add" component={Add}/>
+        				<Stack.Screen name="Invite" component={Invite}/>
         			</Stack.Navigator>
         		</NavigationContainer>
       		) : (

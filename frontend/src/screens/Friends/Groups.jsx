@@ -14,7 +14,7 @@ const Groups = ({ navigation }) => {
   const { authState, getGroups } = useContext(AuthContext);
   const [search, setSearch] = useState("");
   if (!authState.groups) {
-    getGroups();
+      getGroups({ id: authState.userToken });
   }
   const groups = [];
   if (authState && authState.groups) {
