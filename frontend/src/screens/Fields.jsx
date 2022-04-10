@@ -60,5 +60,6 @@ const styles = StyleSheet.create({
 	input: {
 		borderStyle: 'solid',
 		backgroundColor: 'pink',
+		width: "100%",
 	},
 });
