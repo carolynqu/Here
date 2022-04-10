@@ -3,9 +3,9 @@ import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native
 import Collapsible from 'react-native-collapsible';
 import Friend from './Friend';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import AddFriendsButton from './AddFriendsButton';
+import ModifyGroupButton from './ModifyGroupButton';
 
-const Group = ({ group, navigation }) => {
+const Group = ({ navigation, group }) => {
 	const [ isCollapsed, updateCollapsed ] = useState(true);
 	const toggleCollapse = () => {
 		updateCollapsed(!isCollapsed);
@@ -25,7 +25,7 @@ const Group = ({ group, navigation }) => {
   	  				)
   	  				}
   	  			/>
-  	  			<AddFriendsButton navigation={navigation}/>
+  	  			<ModifyGroupButton navigation={navigation} group={group}/>
   	  		</Collapsible>
   	  	</View>
   	);
