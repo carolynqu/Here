@@ -11,6 +11,8 @@ export const AuthContextProvider = ({ children }) => {
             			...prevState,
             			isSignout: false,
             			userToken: action.token,
+            			friends: action.friends,
+            			groups: action.groups,
           			};
         		case "SIGN_OUT":
           			return {
@@ -58,8 +60,7 @@ export const AuthContextProvider = ({ children }) => {
     	{
       		isLoading: true,
       		isSignout: false,
-      		userToken: true,
-      		//userToken: null,
+      		userToken: null,
       		groups: undefined,
       		friends: undefined,
       		sessions: undefined,
@@ -69,9 +70,8 @@ export const AuthContextProvider = ({ children }) => {
     	() => ({
       		signIn: async (values) => {
 				const resData = await userSignIn(values);
-				console.log(resData);
 				if(!resData) return false;
-        		dispatch({ type: "SIGN_IN", token: resData.email });
+        		dispatch({ type: "SIGN_IN", token: resData.id, groups: resData.groups, friends: resData.following });
       		},
       		signOut: () => dispatch({ type: "SIGN_OUT" }),
       		signUp: async (values) => {

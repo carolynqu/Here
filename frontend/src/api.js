@@ -10,35 +10,39 @@ export const addUser = async ({ firstName, lastName, email, password }) => {
   		email: email,
   		password: password,
   	});
-	axios.post(`${baseUrl}/sign-up`, json, {
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	}).then(res => {
-		if(res.data.includes("email-already-in-use")){
+  	try{
+		const res = await axios.post(`${baseUrl}/sign-up`, json, {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		})
+		if(typeof res.data === 'string'){
 			return undefined;
 		}
 		return res.data;
-	}).catch(err => {
+	}
+	catch (err) {
 		console.log(err);
-	});
+	};
 }
 export const userSignIn = async ({ email, password }) => {
 	const json = JSON.stringify({
   		email: email,
   		password: password,
   	});
-	axios.post(`${baseUrl}/sign-in`, json, {
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	}).then(res => {
-		console.log(res.data);
-		if(res.data.includes("email-already-in-use")){
+  	try {
+		const res = await axios.post(`${baseUrl}/sign-in`, json, {
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+		if(typeof res.data === 'string'){
 			return undefined;
 		}
+		console.log(res.data);
 		return res.data;
-	}).catch(err => {
+	}
+	catch (err){
 		console.log(err);
-	});
+	}
 }
