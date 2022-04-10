@@ -2,15 +2,15 @@ import { useContext } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Button } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
-const PresentationContainer = ({ navigation, title, children }) => {
+const PresentationContainer = ({ navigation, title, children, xSize=36, xPlace="left" }) => {
 	const handlePress = () => {
 		navigation.goBack();
 	}
   	return (
   	  	<View style={styles.container}>
   	  		<View style={styles.header}>
-  	  			<TouchableOpacity style={styles.x} onPress={handlePress}>
-					<Feather name="x" size={36} color="black" />
+  	  			<TouchableOpacity style={xPlace == "left" ? styles.xLeft : styles.xRight} onPress={handlePress}>
+					<Feather name="x" size={xSize} color="black" />
   	  			</TouchableOpacity>
   	  			<Text style={styles.title}>
   	  				{title}
@@ -37,9 +37,14 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "center",
 	},
-	x: {
+	xLeft: {
 		position: "absolute",
 		left: 20,
+		top: 20,
+	},
+	xRight: {
+		position: "absolute",
+		right: 20,
 		top: 20,
 	},
 	center: {
