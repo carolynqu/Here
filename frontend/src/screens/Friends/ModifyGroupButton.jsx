@@ -1,15 +1,17 @@
 import { useContext } from 'react';
 import { StyleSheet, Text, View, Alert, TouchableOpacity } from 'react-native';
 
-const AddFriendsButton = ({ navigation }) => {
-	const addFriends = () => {
-		navigation.navigate("AddFriendsMenu");
+const ModifyGroupButton = ({ navigation, group }) => {
+	const modifyGroup = () => {
+		navigation.navigate("ModifyGroupMenu", {
+			group: group
+		});
 	}
   	return (
   	  	<View>
-  	  		<TouchableOpacity onPress={addFriends}>
+  	  		<TouchableOpacity onPress={modifyGroup}>
   	  			<Text style={styles.friend}>
-  	  				+ Add Friends
+  	  				+ Modify Group
   	  			</Text>
   	  		</TouchableOpacity>
   	  	</View>
@@ -17,4 +19,4 @@ const AddFriendsButton = ({ navigation }) => {
 }
 const styles = StyleSheet.create({
 });
-export default AddFriendsButton;
+export default ModifyGroupButton;

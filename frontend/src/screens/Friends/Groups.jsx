@@ -35,7 +35,7 @@ const Groups = ({ navigation }) => {
   	  		<FlatList
   	  			data={groups}
   	  			renderItem={({item}) => (
-  	  				<Group group={item} navigation={navigation}/>
+  	  				<Group navigation={navigation} group={item}/>
   	  			)
   	  			}
   	  		/>
