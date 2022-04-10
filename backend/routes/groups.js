@@ -24,151 +24,135 @@ const router = express.Router();
  * }
  *
  */
-// router.post("/create-group", async (req, res) => {
+router.post("/create-group", async (req, res) => {
 
-//     const user = req.body.id;
-//     const name = req.body.groupName;
-//     const picture = req.body.picture;
+    const user = req.body.id;
+    const name = req.body.groupName;
+    const picture = req.body.picture;
 
-//     // Create new group
-//     const collection = db.collection("groups");
-//     collection.add({
-//         name: name,
-//         picture: picture,
-//         members: Array.of(user)
-//     }).then((docRef) => {
+    // Create new group
+    const collection = db.collection("groups");
+    collection.add({
+        name: name,
+        picture: picture,
+        members: Array.of(user)
+    }).then((docRef) => {
 
-//         const currUser = db.collection("users").doc(user);
+        const currUser = db.collection("users").doc(user);
 
-//         currUser.get()
-//             .then((doc) => {
-//                 const userData = doc.data();
-//                 currUser.update({
-//                     groups: [...userData.groups, docRef.id]
-//                 }).catch(e => {
-//                     res.send(e.code);
-//                 });
-//             });
+        currUser.get()
+            .then((doc) => {
+                const userData = doc.data();
+                currUser.update({
+                    groups: [...userData.groups, docRef.id]
+                }).catch(e => {
+                    res.send(e.code);
+                });
+            });
 
-//         docRef.get().then((doc) => {
-//             res.send(doc.data());
-//         }).catch(e => {
-//             res.send(e.code);
-//         });
-//     }).catch(e => {
-//         res.send(e.code);
-//     });
-// });
+        docRef.get().then((doc) => {
+            res.send(doc.data());
+        }).catch(e => {
+            res.send(e.code);
+        });
+    }).catch(e => {
+        res.send(e.code);
+    });
+});
 
-// // Leave a group
-// /**
-//  * @param
-//  * group id
-//  * id
-//  *
-//  * @logic
-//  * remove group from user's groups list
-//  *
-//  * @returns
-//  * User object
-//  *
-//  */
+// Leave a group
+/**
+ * @param
+ * group id
+ * id
+ *
+ * @logic
+ * remove group from user's groups list
+ *
+ * @returns
+ * User object
+ *
+ */
 
-// /**
-// router.post("/leave", async (req, res) => {
+/**
+router.post("/leave", async (req, res) => {
 
-//     const user = req.body.id;
-//     const group = req.body.groupId;
+    const user = req.body.id;
+    const group = req.body.groupId;
 
-//     // Create new group
-//     const collection = db.collection("groups");
-//     collection.doc(group).get()
-//         .then((docRef) => {
+    // Create new group
+    const collection = db.collection("groups");
+    collection.doc(group).get()
+        .then((docRef) => {
 
-//         })
-// });
-//  */
+        })
+});
+ */
 
 
-// // Invite someone to group
-// /**
-//  * @param
-//  * group id
-//  * id
-//  * array of member ids
-//  *
-//  * @logic
-//  * search each member email, if they are there, then add their id to array
-//  * else add them to a send-to list (TBD)
-//  *
-//  * @returns
-//  * {
-//  *  id
-//  *  name
-//  *  picture (empty)
-//  *  members [all members]
-//  * }
-//  *
-//  */
-// router.post("/add", (req, res) => {
+// Invite someone to group
+/**
+ * @param
+ * group id
+ * id
+ * array of member ids
+ *
+ * @logic
+ * search each member email, if they are there, then add their id to array
+ * else add them to a send-to list (TBD)
+ *
+ * @returns
+ * {
+ *  id
+ *  name
+ *  picture (empty)
+ *  members [all members]
+ * }
+ *
+ */
+router.post("/add", async (req, res) => {
 
-//     const group = req.body.group;
-//     const id = req.body.id;
-//     const members = req.body.members;
+    const group = req.body.group;
+    const id = req.body.id;
+    const members = req.body.members;
 
-//     const userDb = db.collection("users");
+    const userDb = db.collection("users");
 
-//     const groupRef = db.collection("groups").doc(group);
+    const groupRef = db.collection("groups").doc(group);
 
-//     members.forEach((member) => {
-//         console.log(member);
+    members.forEach((member) => {
+        console.log(member);
 
-//         userDb.doc(member).update({
-//             groups: fs.firestore.FieldValue.arrayUnion(group)
-//         }).catch(e => {
-//             res.send(e.code);
-//         })
-//     });
+        userDb.doc(member).update({
+            groups: fs.firestore.FieldValue.arrayUnion(group)
+        });
+    });
 
-//     let membersArray = [];
+    let membersArray = [];
 
-//     groupRef.update({
-//         members: [...members, id]
-//     }).then(() => {
-//         groupRef.get().then((doc) => {
-//             const data = doc.data();
-//             data.id = doc.id;
+    groupRef.update({
+        members: [...members, id]
+    })
 
-//             data.members = data.members.map(member => {
-//                 let firstName;
-//                 let lastName;
+    const groupDoc = await groupRef.get();
+    const data = groupDoc.data();
 
-//                 const res = await userDb.doc(member).get();
+    data.id = groupDoc.id;
+    for (let i = 0; i < members.length; i++) {
+        let currMember = await userDb.doc(members[i]).get();
+        let stuff = currMember.data();
 
-//                 /**
-//                 return userDb.doc(member).get().then((memberData) => {
-//                     const stuff = memberData.data();
+        membersArray[i] = {
+            id: members[i],
+            firstName: stuff.firstName,
+            lastName: stuff.lastName
+        };
+    }
 
-//                     firstName = stuff.firstName;
-//                     lastName = stuff.lastName;
+    data.members = membersArray;
 
-//                     const hello = {
-//                         id: member,
-//                         firstName: firstName,
-//                         lastName: lastName
-//                     };
-
-//                     return hello;
-//                 }).catch(e => {
-//                     res.send(e.code);
-//                 })
-//                  */
-//             })
-
-//             res.send(data);
-//         });
-//     });
-// })
+    res.send(data);
+})
 
 // Get groups
 /**
@@ -186,8 +170,7 @@ const router = express.Router();
  *
  */
 
-router.post("/", (req, res) => {
-
+router.post("/", async (req, res) => {
 })
 
 module.exports = router;
