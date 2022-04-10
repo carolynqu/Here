@@ -24,7 +24,7 @@ const LogIn = ({ navigation }) => {
     formState,
   } = useForm();
   const onSubmit = (values) => {
-    signIn();
+      signIn({ email: values.email, password: values.password });
   };
   return (
     <View style={{ marginTop: 80, marginHorizontal: theme.horizMargin }}>
