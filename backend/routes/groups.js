@@ -1,7 +1,7 @@
 const express = require("express");
 const db = require("../db.js");
 const fbApp = require("../firebase.js");
-const Firestore = require("firebase/firestore");
+const fs = require("firebase-admin");
 
 const router = express.Router();
 
@@ -58,16 +58,13 @@ router.post("/create-group", async (req, res) => {
     }).catch(e => {
         res.send(e.code);
     });
-
-    // Add to users
-
-
 });
 
 // Leave a group
 /**
  * @param
  * group id
+ * id
  * 
  * @logic
  * remove group from user's groups list
@@ -76,6 +73,22 @@ router.post("/create-group", async (req, res) => {
  * User object
  * 
  */
+
+/**
+router.post("/leave", async (req, res) => {
+
+    const user = req.body.id;
+    const group = req.body.groupId;
+
+    // Create new group
+    const collection = db.collection("groups");
+    collection.doc(group).get()
+        .then((docRef) => {
+
+        })
+});
+ */
+
 
 // Invite someone to group
 /**
@@ -96,6 +109,33 @@ router.post("/create-group", async (req, res) => {
  * }
  * 
  */
+router.post("/add", (req, res) => {
+
+    const group = req.body.group;
+    const id = req.body.id;
+    const members = req.body.members;
+
+    const groupRef = db.collection("groups").doc(group);
+
+    members.forEach((member) => {
+        console.log(member);
+
+        db.collection("users").doc(member).update({
+            groups: fs.firestore.FieldValue.arrayUnion(group)
+        }).catch(e => {
+            res.send(e.code);
+        })
+    });
+
+    groupRef.update({
+        members: [...members, id]
+    }).then(() => {
+        groupRef.get().then((doc) => {
+            const data = doc.data();
+            res.send(data);
+        });
+    });
+})
 
 // Get groups
 /**
