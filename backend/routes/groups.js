@@ -195,8 +195,8 @@ router.post("/", async (req, res) => {
 
             membersArray[i] = {
                 id: members[i],
-                firstName: stuff.firstName,
-                lastName: stuff.lastName
+                firstName: memberStuff.firstName,
+                lastName: memberStuff.lastName
             };
         }
 
